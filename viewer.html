@@ -1,0 +1,91 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Katselunäkymä</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+  .bigtext {
+    font-size: 40px;
+  }
+  .imagemenu {
+    position: absolute;
+    left: 93%;
+  }
+  .viewcontainer {
+    position: relative;
+    border-style: dashed;
+	max-width: 615px;
+	padding-bottom: 10px;
+	background-color: powderblue;
+	margin: auto;
+  }
+  .imagecontainer {
+	margin: auto;
+	padding: 5px;
+  }
+  .imageinfo {
+    text-align: center;
+	border-style: dashed;
+  }
+  .tags {
+    font-weight: bold;
+  }
+  .commentsection {
+    padding: 0%;
+  }
+  .commentrow {
+  }
+  .commenttext {
+    background-color: lightblue;
+    border-style: none;
+    resize: none;
+    width: 85%;
+	overflow: hidden;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="viewcontainer">
+  <i class="glyphicon glyphicon-menu-hamburger bigtext imagemenu" onclick="alert('Kuvamenu');"></i>
+  <div class="imagecontainer">
+    <a href="images/600x400.png"><img src="images/600x400.png"></a>
+  </div>
+    <div class="imageinfo">
+      <p>Tässä on tekstiä. Lorem ipsum diipa daapa esimerkkikuva suoraan puolasta. Tälle tekstille tarvisi varmaan jonku maksimipituuden?</p>
+      <span class="tags">#tägi #toinentägi #näitäriittää #fsdrk	</span>
+    </div>
+	<div class="commentsection">
+	  <span class="commentrow">
+	    <i class="glyphicon glyphicon-user bigtext" onclick="alert('Käyttäjän profiilisivu')"></i>
+	    <textarea class="commenttext">Onpas hieno kuva, kertakaikkiaan! Muistan kun armeijassa aikanaan vuonna -88 tuupojärvellä...</textarea>
+		<a><i class="glyphicon glyphicon-menu-hamburger bigtext" onclick="alert('Kommenttimenu');"></i></a>
+	  </span>
+	  <span class="commentrow">
+	    <i class="glyphicon glyphicon-user bigtext" onclick="alert('Käyttäjän profiilisivu')"></i>
+	    <textarea class="commenttext">Voi että minun pieni kissanpentuni ei tällaiseen akrobatiaan taipuisi, tui tui!</textarea>
+		<a><i class="glyphicon glyphicon-menu-hamburger bigtext" onclick="alert('Kommenttienu');"></i></a>
+	  </span>
+	  <span class="commentrow">
+	    <i class="glyphicon glyphicon-user bigtext" onclick="alert('Käyttäjän profiilisivu')"></i>
+	    <textarea class="commenttext">Eka</textarea>
+		<a><i class="glyphicon glyphicon-menu-hamburger bigtext" onclick="alert('Kommenttimenu');"></i></a>
+	  </span>
+	  <span class="commentrow">
+	    <i class="glyphicon glyphicon-user bigtext" onclick="alert('Käyttäjän profiilisivu')"></i>
+	    <textarea class="commenttext">Duis scelerisque arcu varius metus semper, ut vestibulum enim sagittis. Donec interdum ligula ut augue consequat hendrerit. In at metus nisl. Donec tristique quis massa vel congue.</textarea>
+		<a><i class="glyphicon glyphicon-menu-hamburger bigtext" onclick="alert('Kommenttimenu');"></i></a>
+	  </span>
+	  <span class="commentrow">
+	    <i class="glyphicon glyphicon-user bigtext" onclick="alert('Käyttäjän profiilisivu')"></i>
+	    <textarea class="commenttext">Duis scelerisque arcu varius metus semper, ut vestibulum enim sagittis. Donec interdum ligula ut augue consequat hendrerit. In at metus nisl. Donec tristique quis massa vel congue.</textarea>
+		<a><i class="glyphicon glyphicon-menu-hamburger bigtext" onclick="alert('Kommenttimenu');"></i></a>
+	  </span>
+	</div>
+</div>
+
+</body>
+</html>
