@@ -9,18 +9,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<!-- uncomment below for faster reload time, breaks icons -->
-<!--  <link rel="stylesheet" href="bootstrap.min.css">
-  <script src="jquery.min.js"></script>
-  <script src="bootstrap.min.js"></script>
--->
 
 </head>
 <body>
 
 <!-- NAVBAR -->
 
- <nav class="navbar navbar-inverse">
+ <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#" onclick="alert('Link to front page');">KopioGram Logo</a>
@@ -41,7 +36,18 @@
 	  </form> 
       <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-	  <li><a href="#"><span class="glyphicon glyphicon-menu-hamburger" onclick="alert('Hamburger menu');"></span></a></li>
+	  <li>
+      <div class="dropdown">
+        <button class="btn" type="button" data-toggle="dropdown">
+        <span class="glyphicon glyphicon-user"></span> Menu
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+        <li><a href="#">Oma Profiili</a></li>
+        <li><a href="#">Spaceholder</a></li>
+        <li><a href="#">Kirjaudu ulos</a></li>
+        </ul>
+    </div>
+      </li>
     </ul>
   </div>
 </nav> 
