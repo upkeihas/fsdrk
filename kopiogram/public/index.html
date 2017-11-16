@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 	<link rel="stylesheet" href="custom-css/style.css">
     <meta charset="utf-8">
@@ -23,53 +24,13 @@
     -->
     <title>KopioGram</title>
   </head>
-  <body>
-  
-   <nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#" onclick="alert('Link to front page');">KopioGram Logo</a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-	 <ul class="nav navbar-nav navbar-left">
-	   <li><button class="btn btn-success navbar-btn" onclick="alert('Upload images tool');">Upload</button></li>
-	 </ul>
-	  <form class="navbar-form navbar-left">
-	  	<div class="input-group">
-		  <input type="text" class="form-control" placeholder="Search">
-		  <div class="input-group-btn">
-		    <button class="btn btn-default" type="submit" onclick="alert('Search images');">
-              <i class="glyphicon glyphicon-search"></i>
-            </button>
-          </div>
-		</div>
-	  </form> 
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-	  <li>
-      <div class="dropdown">
-        <button class="btn" type="button" data-toggle="dropdown">
-        <span class="glyphicon glyphicon-user"></span> Menu
-        <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-        <li><a href="#">Oma Profiili</a></li>
-        <li><a href="#">Spaceholder</a></li>
-        <li><a href="#">Kirjaudu ulos</a></li>
-        </ul>
-    </div>
-      </li>
-    </ul>
-  </div>
-</nav> 
-  
-  
-  
+  <body>  
     <div id="root"></div>
-	<div>
-	<footer class="navbar-fixed-bottom text-center">
+
+	<footer class="sticky-bottom">
 		<p>© KopioGram 2017</p>
 	</footer>
-	</div>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

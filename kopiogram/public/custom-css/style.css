@@ -1,86 +1,72 @@
-/* Remove the navbar's default margin-bottom and rounded borders */ 
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-    }
-    
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-      padding-top: 20px;
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-    
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+footer {
+	text-align: center;
+    color: grey;
+	border-style: dashed;
+}	
 
- 	/* Image viewer */
-	.gallerycontainer {
-		margin: auto;
-		max-width: 1500px;
-		padding: 5px;
-	}
-	
-	.galleryelement {
-		padding: 5px;
-	}
-	  .bordered {
-    border-style: dashed;
-	}
-	.centered {
-		text-align: center;
-	}
-	.bigtext {
-		font-size: 20px;
-	}
-	.biggertext {
-		font-size: 40px;
-	}
-	.viewcontainer {
-		position: relative;
-		max-width: 615px;
-		padding-bottom: 10px;
-		margin: auto;
-	}
-	.imagecontainer {
-		margin: auto;
-		padding: 5px;
-	}
-	.imagemenu {
-		position: absolute;
-		left: 93%;
-	}
-	.infocontainer {
-		padding-bottom: 5px;
-	}
-	.imageinfo {
-		resize: none;
-		width: 92%;
-		overflow: hidden;
-	}
-	.tags {
-		font-weight: bold;
-	}
-	.flame {
-		padding-bottom: 5px;
-	}
-	.commentsection {
-	}
-	.commentrow {
-		vertical-align: text-top;
-	}
-	.commenttext {
-		resize: none;
-		width: 87%;
-		overflow: hidden;
-	}
-	textarea {
-		border-style: none;
-	}
+/* Image viewer */
+.gallerycontainer {
+	margin: auto;
+	max-width: 1500px;
+	padding: 5px;
+}
+.galleryelement {
+	padding: 5px;
+}
+  .bordered {
+border-style: dashed;
+}
+.centered {
+	text-align: center;
+}
+.bigtext {
+	font-size: 20px;
+}
+.biggertext {
+	font-size: 40px;
+}
+.viewcontainer {
+	position: relative;
+	max-width: 615px;
+	padding-bottom: 10px;
+	margin: auto;
+}
+.imagecontainer {
+	margin: auto;
+	padding: 5px;
+}
+.imagemenu {
+	position: absolute;
+	left: 93%;
+}
+.infocontainer {
+	padding-bottom: 5px;
+}
+.imageinfo {
+	resize: none;
+	width: 92%;
+	overflow: hidden;
+}
+.tags {
+	font-weight: bold;
+}
+.flame {
+	padding-bottom: 5px;
+}
+.commentsection {
+}
+.commentrow {
+	vertical-align: text-top;
+}
+.commenttext {
+	resize: none;
+	width: 87%;
+	overflow: hidden;
+}
+textarea {
+	border-style: none;
+}
