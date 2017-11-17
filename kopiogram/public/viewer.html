@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="custom-css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="liekita.js"></script>
 </head>
   <body>
 
@@ -64,6 +63,12 @@
       </span>
     </div>
   </div>
-
+  <script>
+  let i=0;
+    function increment() {
+	  i++;
+	  document.getElementById('result').innerHTML = "Liekittäjiä "+i;
+    }
+  </script>
   </body>
 </html>

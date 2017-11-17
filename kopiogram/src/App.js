@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavigationBar from './components/NavigationBar';
+import UserProfile from './components/UserProfile';
 import ImageGallery from './components/ImageGallery';
 
 class App extends Component {
@@ -8,6 +9,7 @@ class App extends Component {
     return (
 		<div>
 		<NavigationBar></NavigationBar>
+		<UserProfile></UserProfile>
 		<ImageGallery></ImageGallery>
 		</div>
     );
