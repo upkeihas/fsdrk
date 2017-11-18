@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
+import GalleryElement from './GalleryElement';
 
 class ImageGallery extends Component {
-  render() {
-    return (
+
+
+
+	render() {
+
+		//TODO: fetch image url list from db
+		
+		let elementList=[];
+		for (var i=0; i<16; i++){
+			elementList.push(<GalleryElement url="images/365x365.png"/>);
+		}
+		
+		return (
 
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center"> 
 			<div class="gallerycontainer">
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
-				<div class="galleryelement col-lg-3 col-md-4 col-sm-6 col-xs-12"><a href="images/365x365.png"><img src="images/365x365.png"></img></a></div>
+				{elementList}
 			</div>
 		</div>
     );

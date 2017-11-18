@@ -48,17 +48,15 @@ class App extends Component {
 
 */	
 	
-	
+//	Gör så här:
+//		<NavigationBar isLogged={this.state.isLogged} onLogout={this.onLogout}/>	
+
   render() {
     return (
 		<div>
-		
-/*	Gör så här:
-		<NavigationBar isLogged={this.state.isLogged} onLogout={this.onLogout}/>
-*/
-		<NavigationBar></NavigationBar>
-		<UserProfile></UserProfile>
-		<ImageGallery></ImageGallery>
+		<NavigationBar/>
+		<UserProfile/>
+		<ImageGallery/>
 		</div>
     );
   }
