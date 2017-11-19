@@ -9,7 +9,7 @@ class App extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			numberOfImages:12,
+			numberOfImages:16,
 			isLogged:true,
 //			token:""
 		}

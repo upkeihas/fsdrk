@@ -56,9 +56,9 @@ class NavigationBar extends React.Component {
 						</form>
 
 						<ul className="nav navbar-nav navbar-right">
-							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload" onClick={this.onUpload}></span>Upload</a></li>
-							<li><a href="#"><span className="glyphicon glyphicon-log-out" onClick={this.onLogout}></span> Logout</a></li>
-							<li><a href="#"><span className="glyphicon glyphicon-menu-hamburger"></span></a></li>
+							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload}></span>Upload</a></li>
+							<li><a href="#"><span className="glyphicon glyphicon-log-out bigtext" onClick={this.onLogout}></span> Logout</a></li>
+							<li><a href="#"><span className="glyphicon glyphicon-menu-hamburger bigtext"></span></a></li>
 						</ul>
 					</div>
 				</nav>
@@ -84,9 +84,9 @@ class NavigationBar extends React.Component {
 						</form>
 
 						<ul className="nav navbar-nav navbar-right">
-							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload" onClick={this.onUpload}></span>Upload</a></li>
-							<li><a href="#"><span className="glyphicon glyphicon-user"></span> Sign Up</a></li>
-							<li><a href="#"><span className="glyphicon glyphicon-log-in" onClick={this.onLogin}></span> Login</a></li>
+							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload}></span>Upload</a></li>
+							<li><a href="#"><span className="glyphicon glyphicon-user bigtext"></span> Sign Up</a></li>
+							<li><a href="#"><span className="glyphicon glyphicon-log-in bigtext" onClick={this.onLogin}></span> Login</a></li>
 						</ul>
 					</div>
 				</nav>
