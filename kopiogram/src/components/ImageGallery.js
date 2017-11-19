@@ -9,15 +9,17 @@ class ImageGallery extends Component {
 
 		//TODO: fetch image url list from db
 		
+		let noe = this.props.numberOfElements;
+		
 		let elementList=[];
-		for (var i=0; i<16; i++){
+		for (var i=0; i<noe; i++){
 			elementList.push(<GalleryElement url="images/365x365.png"/>);
 		}
 		
 		return (
 
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center"> 
-			<div class="gallerycontainer">
+		<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center"> 
+			<div className="gallerycontainer">
 				{elementList}
 			</div>
 		</div>

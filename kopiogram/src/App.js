@@ -54,9 +54,9 @@ class App extends Component {
   render() {
     return (
 		<div>
-		<NavigationBar/>
-		<UserProfile/>
-		<ImageGallery/>
+		<NavigationBar isLogged="true"/>
+		<UserProfile isVisible="true"/>
+		<ImageGallery numberOfElements="20"/>
 		</div>
     );
   }
