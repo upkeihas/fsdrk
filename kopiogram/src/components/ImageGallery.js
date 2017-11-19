@@ -3,15 +3,13 @@ import GalleryElement from './GalleryElement';
 
 class ImageGallery extends Component {
 
-
-
 	render() {
 
 		//TODO: fetch image url list from db
 		
-		let noe = this.props.numberOfElements;
-		
+		let noe = this.props.numberOfImages;	
 		let elementList=[];
+
 		for (var i=0; i<noe; i++){
 			elementList.push(<GalleryElement url="images/365x365.png"/>);
 		}

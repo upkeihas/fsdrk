@@ -1,7 +1,13 @@
-# fsdrk
-Full Stack Dev RekryKoulutus harjoitustyö:
+FSDRK Oulu 2017
 
-Kuvagalleria KopioGram
----
-Tästä tulee joskus Instagramin tyylinen kuvagalleria. Toistaiseksi vasta UI-mockup.
+## KopioGram-kuvagalleria
+
+Erästä suosittua internetin kuvapalvelua mukaillen tehty full stack dev -kurssin harjoitustyö.
+
+
+Teknologiat:
+-JS, React, node.js
+-HTML 5, JSX
+-CSS, BootStrap
+-MongoDB, Mongoose
 

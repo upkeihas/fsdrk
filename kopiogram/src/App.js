@@ -5,20 +5,43 @@ import UserProfile from './components/UserProfile';
 import ImageGallery from './components/ImageGallery';
 
 class App extends Component {
-
-// LOGIN-JUTUT
-
-/*	constructor(props){
+	
+	constructor(props){
 		super(props);
 		this.state = {
-				isLogged:false,
-				token:""
+			numberOfImages:12,
+			isLogged:true,
+//			token:""
 		}
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
+		this.onUpload = this.onUpload.bind(this);
 	}
 
+//	When upload button is pressed in NavigationBar.js this function is called
+	onUpload(){
+		console.log("Upload images logic goes here");
+	}
 
+// Calling more functions from navbar: in and out
+
+	onLogin(){
+		console.log("Logged in!");
+		this.setState({
+			isLogged:true
+		})
+	}
+
+	onLogout(){
+		console.log("Logged out!");
+		this.setState({
+			isLogged:false
+		})
+	}
+		
+// LOGIN-JUTUT
+
+/*
 	onLogin(token){
 		this.setState({
 			isLogged:true,
@@ -49,14 +72,15 @@ class App extends Component {
 */	
 	
 //	Gör så här:
-//		<NavigationBar isLogged={this.state.isLogged} onLogout={this.onLogout}/>	
+//		<NavigationBar isLogged={this.state.isLogged} onLogout={this.onLogout}/>
+
 
   render() {
     return (
 		<div>
-		<NavigationBar isLogged="true"/>
-		<UserProfile isVisible="true"/>
-		<ImageGallery numberOfElements="20"/>
+		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin}/>
+		<UserProfile isLogged={this.state.isLogged}/>
+		<ImageGallery numberOfImages={this.state.numberOfImages}/>
 		</div>
     );
   }
