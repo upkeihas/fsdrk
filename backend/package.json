@@ -1,0 +1,30 @@
+{
+  "name": "KopioGram",
+  "version": "1.0.0",
+  "description": "KopioGram app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mern",
+    "contact",
+    "app"
+  ],
+  "author": "fsdrk",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cloudinary": "^1.9.1",
+    "connect-mongo": "^2.0.0",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.12.4",
+    "mongoose-unique-validator": "^1.0.6",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}
