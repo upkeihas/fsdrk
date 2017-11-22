@@ -6,11 +6,11 @@ Erästä suosittua internetin kuvapalvelua mukaillen tehty full stack dev -kurss
 
 
 ## Tekijät
-Petri Huttu
-U-P Keihäs
-Seppo Leskelä
-Sanna Pitkänen
-Matti Tuokkola
+- Petri Huttu
+- U-P Keihäs
+- Seppo Leskelä
+- Sanna Pitkänen
+- Matti Tuokkola
 
 
 ### Teknologiat
