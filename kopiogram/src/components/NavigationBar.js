@@ -1,27 +1,33 @@
 import React from 'react';
+import LoginDialog from './LoginDialog';
 
 class NavigationBar extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
-			isLogged:true
+			isLogged:this.props.isLogged
 		}
+		this.onRegister = this.onRegister.bind(this);
 		this.onUpload = this.onUpload.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
 	}
 
+	onRegister(userinfo){
+		this.props.onRegister(userinfo);
+	}
+	
 	onUpload(){
 		console.log("Upload button pressed, calling parents onUpload()");
 		this.props.onUpload(); // this prop function is the parent component's (App.js) function onUpload()
 	}
 	
-	onLogin(){
+	onLogin(userinfo){
 		console.log("Login button pressed");
 		this.setState({
 			isLogged:true
 		})
-		this.props.onLogin(); // Calling parent's onLogin function again
+		this.props.onLogin(userinfo); // Calling parent's onLogin function again
 	}
 	
 	onLogout() {
@@ -86,7 +92,7 @@ class NavigationBar extends React.Component {
 						<ul className="nav navbar-nav navbar-right">
 							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload}></span>Upload</a></li>
 							<li><a href="#"><span className="glyphicon glyphicon-user bigtext"></span> Sign Up</a></li>
-							<li><a href="#"><span className="glyphicon glyphicon-log-in bigtext" onClick={this.onLogin}></span> Login</a></li>
+							<li><LoginDialog onLogin={this.onLogin} onRegister={this.onRegister}/></li>
 						</ul>
 					</div>
 				</nav>

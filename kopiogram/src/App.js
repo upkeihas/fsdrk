@@ -10,7 +10,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			numberOfImages:16,
-			isLogged:true,
+			isLogged:false,
 //			token:""
 		}
 		this.onRegister = this.onRegister.bind(this);
