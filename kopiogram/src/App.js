@@ -25,8 +25,12 @@ class App extends Component {
 
 // Calling more functions from navbar: in and out
 
-	onLogin(){
-		console.log("Logged in!");
+	onRegister(userinfo) {
+			console.log(userinfo);
+	}
+	
+	onLogin(userinfo){
+		console.log(userinfo);
 		this.setState({
 			isLogged:true
 		})
