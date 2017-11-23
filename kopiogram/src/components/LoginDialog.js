@@ -21,7 +21,7 @@ class LoginDialog extends Component {
 		}
 		if(event.target.name === "passwordInput"){
 			this.setState({
-					password:event.target.value
+				password:event.target.value
 			})
 		}
 	}
