@@ -48,14 +48,14 @@ class LoginDialog extends Component {
 		return(
 			<div className="logindialog">
 				<form>
-					User name:
 					<input type="text"
 						name="usernameInput"
+						placeholder="Username"
 						value={this.state.username}
 						onChange={this.onChange}/>
-					Password:
 					<input type="password"
 						name="passwordInput"
+						placeholder="Password"
 						value={this.state.password}
 						onChange={this.onChange}/>
 					<input type="button" onClick={this.onSubmit} name="registerButton" value="Register"/>

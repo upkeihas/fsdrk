@@ -83,7 +83,7 @@ class App extends Component {
   render() {
     return (
 		<div>
-		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin}/>
+		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister}/>
 		<UserProfile isLogged={this.state.isLogged}/>
 		<ImageGallery numberOfImages={this.state.numberOfImages}/>
 		</div>
