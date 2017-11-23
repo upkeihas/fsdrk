@@ -13,6 +13,7 @@ class App extends Component {
 			isLogged:true,
 //			token:""
 		}
+		this.onRegister = this.onRegister.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
 		this.onUpload = this.onUpload.bind(this);
@@ -23,10 +24,10 @@ class App extends Component {
 		console.log("Upload images logic goes here");
 	}
 
-// Calling more functions from navbar: in and out
+// Calling more functions from navbar: register, in and out
 
 	onRegister(userinfo) {
-			console.log(userinfo);
+		console.log(userinfo);
 	}
 	
 	onLogin(userinfo){
