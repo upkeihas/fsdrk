@@ -47,7 +47,8 @@ class App extends Component {
 	onLogout(){
 		console.log("App.js onLogout()");
 		this.setState({
-			isLogged:false
+			isLogged:false,
+			inProfile:false
 		})
 	}
 
