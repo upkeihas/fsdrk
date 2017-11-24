@@ -3,6 +3,8 @@ import './App.css';
 import NavigationBar from './components/NavigationBar';
 import UserProfile from './components/UserProfile';
 import ImageGallery from './components/ImageGallery';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import Main from './components/Main';
 
 class App extends Component {
 	
@@ -10,6 +12,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			numberOfImages:16,
+			inProfile:false,
 			isLogged:false,
 //			token:""
 		}
@@ -17,6 +20,8 @@ class App extends Component {
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
 		this.onUpload = this.onUpload.bind(this);
+		this.onProfile = this.onProfile.bind(this);
+		
 	}
 
 //	When upload button is pressed in NavigationBar.js this function is called
@@ -41,6 +46,12 @@ class App extends Component {
 		console.log("Logged out!");
 		this.setState({
 			isLogged:false
+		})
+	}
+
+	onProfile(){
+		this.setState({
+			onProfile:true
 		})
 	}
 		
@@ -83,9 +94,9 @@ class App extends Component {
   render() {
     return (
 		<div>
-		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister}/>
-		<UserProfile isLogged={this.state.isLogged}/>
-		<ImageGallery numberOfImages={this.state.numberOfImages}/>
+		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onProfile={this.onProfile}/>
+		<Main isLogged={this.state.isLogged} onProfile={this.onProfile} numberOfImages={16}/>
+	
 		</div>
     );
   }
