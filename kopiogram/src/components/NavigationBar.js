@@ -41,9 +41,7 @@ class NavigationBar extends React.Component {
 	}
 
 	onProfile(){
-		this.setState({
-			onProfile:true
-		})
+		this.props.onProfile();
 	}
 
         render(){

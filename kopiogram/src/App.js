@@ -32,27 +32,36 @@ class App extends Component {
 // Calling more functions from navbar: register, in and out
 
 	onRegister(userinfo) {
+		console.log("App.js onRegister()");
 		console.log(userinfo);
 	}
 	
 	onLogin(userinfo){
+		console.log("App.js onLogin()");
 		console.log(userinfo);
 		this.setState({
-			isLogged:true
+			isLogged:true,
 		})
 	}
 
 	onLogout(){
-		console.log("Logged out!");
+		console.log("App.js onLogout()");
 		this.setState({
 			isLogged:false
 		})
 	}
 
 	onProfile(){
-		this.setState({
-			onProfile:true
-		})
+		console.log("App.js onProfile()");
+		if (this.state.inProfile) {
+			this.setState({
+				inProfile:false
+			})
+		}else{
+			this.setState({
+				inProfile:true
+			})
+		}
 	}
 		
 // LOGIN-JUTUT
@@ -95,8 +104,7 @@ class App extends Component {
     return (
 		<div>
 		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onProfile={this.onProfile}/>
-		<Main isLogged={this.state.isLogged} onProfile={this.onProfile} numberOfImages={16}/>
-	
+		<Main isLogged={this.state.isLogged} inProfile={this.state.inProfile} numberOfImages={this.state.numberOfImages}/>
 		</div>
     );
   }

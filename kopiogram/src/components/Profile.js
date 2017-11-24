@@ -1,13 +1,12 @@
 import React from 'react';
-import LoginDialog from './LoginDialog';
+import UserProfile from './UserProfile';
 import { Link } from 'react-router-dom';
 
 class Profile extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
-			isLogged:this.props.isLogged,
-			onProfile:this.props.onProfile
+			inProfile:this.props.inProfile
 		}
 		
 	}
@@ -15,18 +14,12 @@ class Profile extends React.Component {
 	render () {
 		let tempRender;
 		
-			if (this.props.onProfile){
+			if (this.props.inProfile){
 				console.log("onProfile = true, good!");
 				tempRender =
 
 					<div>
-						<p> Tähän sivupalkin piirto </p>
-						<p> Tähän sivupalkin piirto </p>
-						<p> Tähän sivupalkin piirto </p>
-						<p> Tähän sivupalkin piirto </p>
-						<p> Tähän sivupalkin piirto </p>
-						<p> Tähän sivupalkin piirto </p>
-						<p> Tähän sivupalkin piirto </p>
+						<UserProfile/>
 					</div>
 
 			}else{
