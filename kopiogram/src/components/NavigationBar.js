@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginDialog from './LoginDialog';
+import { Link } from 'react-router-dom';
 
 class NavigationBar extends React.Component {
 	constructor(props){
@@ -11,6 +12,7 @@ class NavigationBar extends React.Component {
 		this.onUpload = this.onUpload.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
+		this.onProfile = this.onProfile.bind(this);
 	}
 
 	onRegister(userinfo){
@@ -38,12 +40,20 @@ class NavigationBar extends React.Component {
 		this.props.onLogout();
 	}
 
+	onProfile(){
+		this.setState({
+			onProfile:true
+		})
+	}
+
         render(){
 
 			let tempRender;
 			
 			if (this.props.isLogged){
 				tempRender =
+
+				
 					<nav className="navbar navbar-inverse navbar-fixed-top">
 					<div className="container-fluid">
 						<div className="navbar-header">
@@ -53,18 +63,20 @@ class NavigationBar extends React.Component {
 						<form className="nav navbar-form navbar-left">
 							<div className="input-group">
 								<input type="text" className="form-control" placeholder="Search"/>
-								<div className="input-group-btn">
+								<div className="input-group-btn">	
 									<button className="btn btn-default" type="submit">
 										<i className="glyphicon glyphicon-search"></i>
 									</button>
 								</div>
 							</div>
+							
 						</form>
 
 						<ul className="nav navbar-nav navbar-right">
 							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload}></span>Upload</a></li>
 							<li><a href="#"><span className="glyphicon glyphicon-log-out bigtext" onClick={this.onLogout}></span> Logout</a></li>
 							<li><a href="#"><span className="glyphicon glyphicon-menu-hamburger bigtext"></span></a></li>
+							<li><Link to="/profiili" onClick={this.onProfile} >Profiili</Link>	</li>
 						</ul>
 					</div>
 				</nav>
