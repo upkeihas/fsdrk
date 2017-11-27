@@ -12,15 +12,17 @@ class App extends Component {
 		super(props);
 		this.state = {
 			numberOfImages:16,
-			inProfile:false,
+			chosenPage:"Main",
 			isLogged:false,
+			typeOfImages:"asd",
 //			token:""
-		}
+		};
 		this.onRegister = this.onRegister.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
 		this.onUpload = this.onUpload.bind(this);
-		this.onProfile = this.onProfile.bind(this);
+		this.onChosenPage = this.onChosenPage.bind(this);
+		
 		
 	}
 
@@ -41,6 +43,7 @@ class App extends Component {
 		console.log(userinfo);
 		this.setState({
 			isLogged:true,
+			chosenPage:"Main"
 		})
 	}
 
@@ -48,19 +51,22 @@ class App extends Component {
 		console.log("App.js onLogout()");
 		this.setState({
 			isLogged:false,
-			inProfile:false
+			chosenPage:"Main"
 		})
 	}
 
-	onProfile(){
-		console.log("App.js onProfile()");
-		if (this.state.inProfile) {
+	onChosenPage(){
+		//Tännekki switch rakenne..?
+		console.log("App.js chosenPage()");
+		if (this.state.chosenPage == "Main") {
 			this.setState({
-				inProfile:false
+				chosenPage:"Profile",
+				typeOfImages:"Profile"
 			})
 		}else{
 			this.setState({
-				inProfile:true
+				chosenPage:"Main",
+				typeOfImages:"Main"
 			})
 		}
 	}
@@ -104,8 +110,8 @@ class App extends Component {
   render() {
     return (
 		<div>
-		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onProfile={this.onProfile}/>
-		<Main isLogged={this.state.isLogged} inProfile={this.state.inProfile} numberOfImages={this.state.numberOfImages}/>
+		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onChosenPage={this.onChosenPage} chosenPage={this.chosenPage}/>
+		<Main typeOfImages={this.state.typeOfImages} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages}/>
 		</div>
     );
   }

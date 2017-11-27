@@ -6,7 +6,7 @@ class Profile extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
-			inProfile:this.props.inProfile
+			chosenPage:this.props.chosenPage
 		}
 		
 	}
@@ -14,8 +14,8 @@ class Profile extends React.Component {
 	render () {
 		let tempRender;
 		
-			if (this.props.inProfile){
-				console.log("onProfile = true, good!");
+			if (this.state.chosenPage == "Profile"){
+				console.log("chosenPage = profile, good!");
 				tempRender =
 
 					<div>
