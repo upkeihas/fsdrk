@@ -7,17 +7,17 @@ class Main extends React.Component {
 		
 	render() {
 		let tempThis;
-		if (this.props.inProfile && this.props.isLogged) {
+		if (this.props.chosenPage == "Profile" && this.props.isLogged) {
             tempThis =
 				<div>
-				<ImageGallery numberOfImages={this.props.numberOfImages}/>
-				<Profile inProfile={this.props.inProfile}/>
+				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages}/>
+				<Profile chosenPage={this.props.chosenPage}/>
 				</div>
 		} else {
 
 		tempThis = 
             <div>
-				<ImageGallery numberOfImages={this.props.numberOfImages}/>
+				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages}/>
 			</div>
 		}
 						

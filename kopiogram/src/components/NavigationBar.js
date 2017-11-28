@@ -6,14 +6,18 @@ class NavigationBar extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
-			isLogged:this.props.isLogged
+			isLogged:this.props.isLogged,
+			chosenPage:this.props.chosenPage
 		}
 		this.onRegister = this.onRegister.bind(this);
 		this.onUpload = this.onUpload.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
-		this.onProfile = this.onProfile.bind(this);
+		this.onChosenPage = this.onChosenPage.bind(this);
+
 	}
+
+	
 
 	onRegister(userinfo){
 		this.props.onRegister(userinfo);
@@ -35,20 +39,36 @@ class NavigationBar extends React.Component {
 	onLogout() {
 		console.log("Logout button pressed");
 		this.setState({
-			isLogged:false
+			isLogged:false,
+			chosenPage:"Main"
 		});
 		this.props.onLogout();
 	}
 
-	onProfile(){
-		this.props.onProfile();
+	onChosenPage(){
+
+		//tekee tästä switchin vaihtoehtoina:
+		// Main( -> loggedin/out main.js:ssä) | Profile( -> toisen käyttäjän profiili profile.js:ssä) | Pictureview | ...muita?
+		if (this.state.chosenPage == "Main") {
+		this.setState({
+			chosenPage:"Profile"
+		});
+	}
+		else {
+			this.setState({
+				chosenPage:"Main"
+			});
+		}
+		this.props.onChosenPage();
 	}
 
-        render(){
 
+
+        render(){
 			let tempRender;
-			
+					
 			if (this.props.isLogged){
+				
 				tempRender =
 
 				
@@ -74,7 +94,7 @@ class NavigationBar extends React.Component {
 							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload}></span>Upload</a></li>
 							<li><a href="#"><span className="glyphicon glyphicon-log-out bigtext" onClick={this.onLogout}></span> Logout</a></li>
 							<li><a href="#"><span className="glyphicon glyphicon-menu-hamburger bigtext"></span></a></li>
-							<li><Link to="/profiili" onClick={this.onProfile} >Profiili</Link>	</li>
+							<li><Link to="/profiili" onClick={this.onChosenPage} >{this.state.chosenPage} nappi</Link>	</li>
 						</ul>
 					</div>
 				</nav>
