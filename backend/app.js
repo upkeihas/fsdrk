@@ -110,12 +110,7 @@ app.post('/register', function(req,res) {
 				res.status(409).end(JSON.stringify({"message":"username already in use"}));			
 				return;
 			} else {						
-				let temp = new user({});
-				temp.username = req.body.username;
-				temp.password = temp.generateHash(req.body.password);
-				temp.email = req.body.email;
-				temp.role = req.body.role;
-				temp.profileImage = req.body.profileImage;
+				let temp = new user(req.body);
 				console.log("temp:");
 				console.log(temp);
 				

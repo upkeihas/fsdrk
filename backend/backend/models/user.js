@@ -2,10 +2,12 @@ var mongoose = require("mongoose");
 var bcrypt = require("bcrypt-nodejs");
 
 var schema = mongoose.Schema({
-	username: String, //{ type:String, index:true, required:true,	unique:true},
-	email: String, //{ type:String, index:true, required:true },
-  password: String, //{ type:String, required:true },
-	role: String, //{	type:String, required:true },
+	id: { type:String, index:true, required:true,	unique:true},
+	username: { type:String, index:true, required:true,	unique:true},
+	email: { type:String, required:true },
+  password: { type:String, required:true },
+	userType: {	type:Boolean, default:false }, // true=admin
+	adminEnabled: {	type:Boolean, default:false }, 
 	profileImage: String,
   images: [String],
 	// follower and following must be move to separate table if over 10 000 users.

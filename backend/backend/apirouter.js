@@ -6,6 +6,22 @@ let apiRouter = express.Router();
 
 mongoose.connect("mongodb://localhost/KopioGramDB", {useMongoClient:true});
 
+//Get all users
+apiRouter.get("/users", function(req,res) {
+	console.log("GET /api/users");
+	user.find(function(err,users) {
+		if(err) {
+			console.log("Failed to load users");
+			res.status(404).json({"Message":"No users found"});
+		} else {
+			console.log("Result in finding users");
+			res.status(200).json(users);
+		}	
+	});
+});
+
+
+//Get all images
 apiRouter.get("/images", function(req,res) {
 	console.log("GET /api/images");
 	image.find(function(err,imageFlow) {
@@ -17,10 +33,9 @@ apiRouter.get("/images", function(req,res) {
 			res.status(200).json(imageFlow);
 		}	
 	});
-
 });
 
-// Get image
+// Get image by id
 apiRouter.get("/image/:id", function(req,res) {
 	console.log("GET /api/image/:id");
 	console.log("req.params.id="+req.params.id);
@@ -40,9 +55,29 @@ apiRouter.get("/image/:id", function(req,res) {
 	});
 });
 
-// Get imageUrl
-apiRouter.get("/image/:imageUrl", function(req,res) {
-	console.log("GET /api/image/:imageUrl");
+// Get image by imageId
+apiRouter.get("/imageid/:id", function(req,res) {
+	console.log("GET /api/imageid/:id");
+	console.log("req.params.id="+req.params.id);
+	let id = req.params.id;
+	image.find({"imageId":id}, function(err, image) {
+		if(err) {
+			console.log("Failed to find image");
+			res.status(404).json({"message":"Failed to find image"});
+		} else {
+			if(JSON.stringify(image) == "[]") {
+				console.log("Image not found");
+			} else {
+				console.log("Success in finding image");	
+			}
+			res.status(200).json(image);
+		}
+	});
+});
+
+// Get image by imageUrl
+apiRouter.get("/imageurl/:imageUrl", function(req,res) {
+	console.log("GET /api/imageurl/:imageUrl");
 	console.log("req.param.imageUrl="+req.param.imageUrl);
 	let imageUrl = req.params.imageUrl;
 	image.find({"imageUrl":imageUrl}, function(err, image) {
@@ -60,13 +95,16 @@ apiRouter.get("/image/:imageUrl", function(req,res) {
 	});
 });
 
-// Search from description
+// Find images by seaching substring from description, tags or comment field
 apiRouter.get("/image/search/:text", function(req,res) {
 	console.log("GET /api/image/search/"+req.params.text);
 	console.log("req.params.text:");
 	console.log(req.params.text);
 	var search = req.params.text;
-	image.find(  { "description": { "$regex": req.params.text, "$options": "i" } }, function(err, image) {
+	image.find( {"$or": [/*{ "owner": { "$regex": req.params.text, "$options": "i" }},*/
+		{ "description": { "$regex": req.params.text, "$options": "i" }},
+		{"tags": { "$regex": req.params.text, "$options": "i" }},
+		{"comments.comment": { "$regex": req.params.text, "$options": "i" } }]}, function(err, image) {
 		if(err) {
 			console.log("Failed to find image");
 			res.status(404).json({"message":"Failed to find image"});
@@ -81,39 +119,75 @@ apiRouter.get("/image/search/:text", function(req,res) {
 	});
 });
 
+// Find images for userName
+apiRouter.get("/image/username/:text", function(req,res) {
+	console.log("GET /api/image/username/"+req.params.text);
+	console.log("req.params.text:");
+	console.log(req.params.text);
+	var search = req.params.text;
+	user.findOne( {"username": req.params.text}, function(err, user1) {
+		if(err) {
+			console.log("Failed to find image");
+			res.status(404).json({"message":"Failed to find image"});
+		} else {
+			if(JSON.stringify(user1) == "[]") {
+				console.log("UserId not found");
+			} else {
+				console.log("Success in finding userId");	
+				console.log(user1);
+				//Find images for userId
+				image.find({ "owner": user1._id}, function(err, image) {
+					if(err) {
+						console.log("Failed to find images");
+						res.status(404).json({"message":"Failed to find images"});
+					} else {
+						if(JSON.stringify(image) == "[]") {
+							console.log("Images not found");
+						} else {
+							console.log("Success in finding images");	
+						}
+						res.status(200).json(image);
+					}
+				});
+			}
+			res.status(200).json(image);
+		}
+	});
+});
+
+// Find images by userId
+apiRouter.get("/image/userid/:id", function(req,res) {
+	console.log("GET /api/image/userid/"+req.params.text);
+	console.log("req.params.id:");
+	console.log(req.params.id);
+	var search = req.params.id;
+	image.find({ "owner": req.params.id }, function(err, image) {
+		if(err) {
+			console.log("Failed to find image");
+			res.status(404).json({"message":"Failed to find image"});
+		} else {
+			if(JSON.stringify(image) == "[]") {
+				console.log("Image not found");
+			} else {
+				console.log("Success in finding image");	
+			}
+			res.status(200).json(image);
+		}
+	});
+});
 
 // Add or update image 
 apiRouter.post("/image", function(req,res) {
 	console.log("POST /api/image");
 	console.log("req.body:");
 	console.log(req.body);
-	console.log("comments="+req.body.comments);
-	var c1 = (req.body.comments);
-	console.log("c1="+c1);
-	console.log("c1.length="+c1.length);
-	console.log("likes1="+req.body.likes);
-	console.log("tags1="+req.body.tags);
-	var likes = ["abcd","efgh","hjkl"];
-	var tags = req.body.tags;
-
-	var temp = new image({});
-	temp.imageId = req.body.imageId;
-	temp.imageUrl = req.body.imageUrl;
-	temp.owner = req.body.owner;
-	temp.timestamp = req.body.timestamp;
-	temp.tags = req.body.tags.split(",");
-	temp.description = req.body.description;
-	temp.likes = req.body.likes.split(",");
+	var temp = new image(req.body);
 	console.log("temp:");
 	console.log(temp);
-	var c3=req.body.comments.split(",");
-	for(let a=0; a<c3.length; a++) {
-		temp.comments.push(c3[a]);
-	}
 	
 	temp.save(function(err,item) {
 		if(err) {
-			console.log("Failed to save image");
+			console.log("Failed to save image. ("+err.message+")");
 			res.status(409).json({"Message":"Failed to save image"});
 		} else {
 			console.log("Success in saving image");
@@ -136,6 +210,5 @@ apiRouter.delete("/image/:id", function(req,res) {
 		}
 	});
 });
-
 
 module.exports = apiRouter;
