@@ -15,7 +15,7 @@ Erästä suosittua internetin kuvapalvelua mukaillen tehty full stack dev -kurss
 
 ### Teknologiat
 
-* JS, React, node.js
+* ECMAScript, React, node.js
 * HTML 5, JSX
 * CSS, BootStrap
 * MongoDB, Mongoose
