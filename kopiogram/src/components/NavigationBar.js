@@ -17,8 +17,6 @@ class NavigationBar extends React.Component {
 
 	}
 
-	
-
 	onRegister(userinfo){
 		this.props.onRegister(userinfo);
 	}
@@ -62,39 +60,38 @@ class NavigationBar extends React.Component {
 		this.props.onChosenPage();
 	}
 
-
-
         render(){
 			let tempRender;
 					
 			if (this.props.isLogged){
 				
 				tempRender =
-
-				
 					<nav className="navbar navbar-inverse navbar-fixed-top">
 					<div className="container-fluid">
 						<div className="navbar-header">
-							<a className="navbar-brand" href="/">KopioGram Logo</a>
+							<a className="navbar-brand" href="/" title="KopioGram">KopioGram Logo</a>
 						</div>
 
-						<form className="nav navbar-form navbar-left">
+						<form className="nav navbar-form navbar-left" action="/search">
 							<div className="input-group">
-								<input type="text" className="form-control" placeholder="Search"/>
-								<div className="input-group-btn">	
-									<button className="btn btn-default" type="submit">
+								<input type="text" className="form-control" placeholder="Search tags"/>
+								<div className="input-group-btn">
+									<button className="btn btn-default" type="submit" title="Search">
 										<i className="glyphicon glyphicon-search"></i>
 									</button>
 								</div>
 							</div>
-							
 						</form>
 
-						<ul className="nav navbar-nav navbar-right">
-							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload}></span>Upload</a></li>
-							<li><a href="#"><span className="glyphicon glyphicon-log-out bigtext" onClick={this.onLogout}></span> Logout</a></li>
-							<li><a href="#"><span className="glyphicon glyphicon-menu-hamburger bigtext"></span></a></li>
-							<li><Link to="/profiili" onClick={this.onChosenPage} >{this.state.chosenPage} nappi</Link>	</li>
+						<ul className="nav navbar-nav navbar-right navbar-inverse">
+							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload} title="Upload"></span></a></li>
+							<li className="dropdown">
+								<a className="btn glyphicon glyphicon-menu-hamburger bigtext dropdown-toggle" data-toggle="dropdown" title="Menu"></a>
+									<ul className="dropdown-menu navbar-inverse dropdown-menu-right">
+										<li><Link to="/profiili" onClick={this.onChosenPage}><span className="glyphicon glyphicon-user bigtext menuitem"> Profile</span></Link></li>
+										<li onClick={this.onLogout}><a href="#"><span className="glyphicon glyphicon-log-out bigtext menuitem"> Logout</span></a></li>
+									</ul>
+							</li>
 						</ul>
 					</div>
 				</nav>
@@ -105,23 +102,23 @@ class NavigationBar extends React.Component {
 					<nav className="navbar navbar-inverse navbar-fixed-top">
 					<div className="container-fluid">
 						<div className="navbar-header">
-							<a className="navbar-brand" href="/">KopioGram Logo</a>
+							<a className="navbar-brand" href="/" title="KopioGram">KopioGram Logo</a>
 						</div>
 
-						<form className="nav navbar-form navbar-left">
+						<form className="nav navbar-form navbar-left" action="/search">
 							<div className="input-group">
-								<input type="text" className="form-control" placeholder="Search"/>
+								<input type="text" className="form-control" placeholder="Search tags"/>
 								<div className="input-group-btn">
-									<button className="btn btn-default" type="submit">
+									<button className="btn btn-default" type="submit" title="Search">
 										<i className="glyphicon glyphicon-search"></i>
 									</button>
 								</div>
 							</div>
 						</form>
 
-						<ul className="nav navbar-nav navbar-right">
-							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload}></span>Upload</a></li>
-							<li><a href="#"><span className="glyphicon glyphicon-user bigtext"></span> Sign Up</a></li>
+						<ul className="nav navbar-nav navbar-right navbar-inverse">
+							<li><a href="#"><span className="glyphicon glyphicon-cloud-upload bigtext" onClick={this.onUpload} title="Upload"></span></a></li>
+							<li><a href="/register"><span className="glyphicon glyphicon-registration-mark bigtext" title="Register"></span></a></li>
 							<li><LoginDialog onLogin={this.onLogin} onRegister={this.onRegister}/></li>
 						</ul>
 					</div>

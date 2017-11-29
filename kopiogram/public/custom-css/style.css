@@ -7,10 +7,20 @@ footer {
     color: grey;
 	border-style: dashed;
 }	
-
+/* Login dialog */
 .logindialog {
 }
 
+/* Main menu */
+.dropdown-menu li{
+   font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.menuitem {
+	color: #9d9d9d;
+}
+.menuitem:hover {
+	color: #222;
+}
 /* Image viewer */
 .gallerycontainer {
 	margin: auto;
