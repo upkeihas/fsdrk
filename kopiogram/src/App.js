@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavigationBar from './components/NavigationBar';
-import UserProfile from './components/UserProfile';
-import ImageGallery from './components/ImageGallery';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import Main from './components/Main';
 
