@@ -16,12 +16,13 @@ var schema = mongoose.Schema({
 });
 
 schema.methods.generateHash = function(password) {
+	console.log("generateHash");
 	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
 schema.methods.isPasswordValid = function(password) {
 	console.log("compareSync "+password+" "+this.password);
-	console.log(this);
+//	console.log(this);
 	return bcrypt.compareSync(password, this.password);
 }
 

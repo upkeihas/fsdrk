@@ -20,7 +20,6 @@ apiRouter.get("/users", function(req,res) {
 	});
 });
 
-
 //Get all images
 apiRouter.get("/images", function(req,res) {
 	console.log("GET /api/images");
@@ -119,6 +118,7 @@ apiRouter.get("/image/search/:text", function(req,res) {
 	});
 });
 
+//TODO: EI toimi
 // Find images for userName
 apiRouter.get("/image/username/:text", function(req,res) {
 	console.log("GET /api/image/username/"+req.params.text);
@@ -136,7 +136,7 @@ apiRouter.get("/image/username/:text", function(req,res) {
 				console.log("Success in finding userId");	
 				console.log(user1);
 				//Find images for userId
-				image.find({ "owner": user1._id}, function(err, image) {
+				image.find({ "owner": user1.id}, function(err, image) {
 					if(err) {
 						console.log("Failed to find images");
 						res.status(404).json({"message":"Failed to find images"});
@@ -155,8 +155,10 @@ apiRouter.get("/image/username/:text", function(req,res) {
 	});
 });
 
+//TODO: EI toimi
 // Find images by userId
 apiRouter.get("/image/userid/:id", function(req,res) {
+	console.log("----------------------------------------");
 	console.log("GET /api/image/userid/"+req.params.text);
 	console.log("req.params.id:");
 	console.log(req.params.id);
@@ -176,7 +178,7 @@ apiRouter.get("/image/userid/:id", function(req,res) {
 	});
 });
 
-// Add or update image 
+// Add new image 
 apiRouter.post("/image", function(req,res) {
 	console.log("POST /api/image");
 	console.log("req.body:");
@@ -196,11 +198,31 @@ apiRouter.post("/image", function(req,res) {
 	});
 });
 
+// Edit image 
+apiRouter.post("/image/edit", function(req,res) {
+	console.log("POST /api/image/edit");
+	console.log("req.body:");
+	console.log(req.body);
+	var temp = new image(req.body);
+	console.log("temp:");
+	console.log(temp);
+	//TODO: Validointia parannettava
+	image.findOneAndUpdate({'imageId':req.body.imageId}, req.body, {upsert:true, new: true}, function(err,item) {
+		if(err) {
+			console.log("Failed to save image. ("+err.message+")");
+			res.status(409).json({"Message":"Failed to save image"});
+		} else {
+			console.log("Success in saving image");
+			res.status(200).json({"message":"success"});
+		}
+	});
+});
+
 // Delete image
-apiRouter.delete("/image/:id", function(req,res) {
+apiRouter.delete("/image/:imageId", function(req,res) {
 	console.log("Delete image");
-	let id = req.params.id;
-	image.remove({"_id":id}, function(err) {
+	let id = req.params.imageId;
+	image.deleteOne({"imageId":id}, function(err) {
 		if(err) {
 			console.log("Failed to remove image");
 			res.status(404).json({"message":"Failed to remove image"});

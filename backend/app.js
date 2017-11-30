@@ -97,7 +97,7 @@ app.post("/login",
 });
 	
 app.post('/register', function(req,res) {
-	console.log("login:"+JSON.stringify(req.body));
+	console.log("register:"+JSON.stringify(req.body));
 	user.find({"username":req.body.username}, function(err,item) {
 		if(err) {
 			console.log("Register: Finding existing users error");
@@ -111,8 +111,8 @@ app.post('/register', function(req,res) {
 				return;
 			} else {						
 				let temp = new user(req.body);
-				console.log("temp:");
-				console.log(temp);
+				temp.username=req.body.username;
+				temp.password= temp.generateHash(req.body.password);
 				
 				temp.save(function(err,item) {
 					if(err){

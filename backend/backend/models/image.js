@@ -17,7 +17,7 @@ function isValidTimestamp (v) {
     return status;
 };
 function isValidUser (v) {
-	let status = v.length > 1;
+	let status = v.length > 0;
     return status;
 };
 function isValidTag (v) {
