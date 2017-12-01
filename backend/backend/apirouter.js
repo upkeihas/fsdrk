@@ -1,6 +1,6 @@
 let mongoose = require("mongoose");
-let user = require("./models/user");
-let image = require("./models/image");
+let userDb = require("./models/user");
+let imageDb = require("./models/image");
 let express = require("express");
 let apiRouter = express.Router();
 
@@ -9,7 +9,7 @@ mongoose.connect("mongodb://localhost/KopioGramDB", {useMongoClient:true});
 //Get all users
 apiRouter.get("/users", function(req,res) {
 	console.log("GET /api/users");
-	user.find(function(err,users) {
+	userDb.find(function(err,users) {
 		if(err) {
 			console.log("Failed to load users");
 			res.status(404).json({"Message":"No users found"});
@@ -20,10 +20,48 @@ apiRouter.get("/users", function(req,res) {
 	});
 });
 
+// Get user by id
+apiRouter.get("/user/:id", function(req,res) {
+	console.log("GET /api/user/:id");
+	console.log("req.params.id="+req.params.id);
+	userDb.find({"id":req.params.id}, function(err, user) {
+		if(err) {
+			console.log("Failed to find user");
+			res.status(404).json({"message":"Failed to find user"});
+		} else {
+			if(JSON.stringify(user) == "[]") {
+				console.log("User not found");
+			} else {
+				console.log("Success in finding user");	
+			}
+			res.status(200).json(user);
+		}
+	});
+});
+
+// Get user by username
+apiRouter.get("/username/:username", function(req,res) {
+	console.log("GET /api/username/:username");
+	console.log("req.params.username="+req.params.username);
+	userDb.find({"username":req.params.username}, function(err, user) {
+		if(err) {
+			console.log("Failed to find user");
+			res.status(404).json({"message":"Failed to find user"});
+		} else {
+			if(JSON.stringify(user) == "[]") {
+				console.log("User not found");
+			} else {
+				console.log("Success in finding user");	
+			}
+			res.status(200).json(user);
+		}
+	});
+});
+
 //Get all images
 apiRouter.get("/images", function(req,res) {
 	console.log("GET /api/images");
-	image.find(function(err,imageFlow) {
+	imageDb.find(function(err,imageFlow) {
 		if(err) {
 			console.log("Failed to load imageFlow");
 			res.status(404).json({"Message":"No images found"});
@@ -39,7 +77,7 @@ apiRouter.get("/image/:id", function(req,res) {
 	console.log("GET /api/image/:id");
 	console.log("req.params.id="+req.params.id);
 	let id = req.params.id;
-	image.find({"_id":id}, function(err, image) {
+	imageDb.find({"_id":id}, function(err, image) {
 		if(err) {
 			console.log("Failed to find image");
 			res.status(404).json({"message":"Failed to find image"});
@@ -59,7 +97,7 @@ apiRouter.get("/imageid/:id", function(req,res) {
 	console.log("GET /api/imageid/:id");
 	console.log("req.params.id="+req.params.id);
 	let id = req.params.id;
-	image.find({"imageId":id}, function(err, image) {
+	imageDb.find({"imageId":id}, function(err, image) {
 		if(err) {
 			console.log("Failed to find image");
 			res.status(404).json({"message":"Failed to find image"});
@@ -79,7 +117,7 @@ apiRouter.get("/imageurl/:imageUrl", function(req,res) {
 	console.log("GET /api/imageurl/:imageUrl");
 	console.log("req.param.imageUrl="+req.param.imageUrl);
 	let imageUrl = req.params.imageUrl;
-	image.find({"imageUrl":imageUrl}, function(err, image) {
+	imageDb.find({"imageUrl":imageUrl}, function(err, image) {
 		if(err) {
 			console.log("Failed to find image");
 			res.status(404).json({"message":"Failed to find image"});
@@ -100,7 +138,7 @@ apiRouter.get("/image/search/:text", function(req,res) {
 	console.log("req.params.text:");
 	console.log(req.params.text);
 	var search = req.params.text;
-	image.find( {"$or": [/*{ "owner": { "$regex": req.params.text, "$options": "i" }},*/
+	imageDb.find( {"$or": [/*{ "owner": { "$regex": req.params.text, "$options": "i" }},*/
 		{ "description": { "$regex": req.params.text, "$options": "i" }},
 		{"tags": { "$regex": req.params.text, "$options": "i" }},
 		{"comments.comment": { "$regex": req.params.text, "$options": "i" } }]}, function(err, image) {
@@ -118,62 +156,69 @@ apiRouter.get("/image/search/:text", function(req,res) {
 	});
 });
 
-//TODO: EI toimi
+//TODO: Siisti koodia
 // Find images for userName
-apiRouter.get("/image/username/:text", function(req,res) {
+apiRouter.get("/image/username/:name", function(req,res) {
 	console.log("GET /api/image/username/"+req.params.text);
-	console.log("req.params.text:");
-	console.log(req.params.text);
-	var search = req.params.text;
-	user.findOne( {"username": req.params.text}, function(err, user1) {
+	console.log("req.params.name:");
+	console.log(req.params.name);
+	var search = req.params.name;
+
+	userDb.findOne( {"username": req.params.name}, function(err, user) {
 		if(err) {
 			console.log("Failed to find image");
 			res.status(404).json({"message":"Failed to find image"});
 		} else {
-			if(JSON.stringify(user1) == "[]") {
+			if(JSON.stringify(user) == "[]") {
 				console.log("UserId not found");
 			} else {
 				console.log("Success in finding userId");	
-				console.log(user1);
+				console.log(user);
+				//---------
 				//Find images for userId
-				image.find({ "owner": user1.id}, function(err, image) {
-					if(err) {
-						console.log("Failed to find images");
-						res.status(404).json({"message":"Failed to find images"});
-					} else {
-						if(JSON.stringify(image) == "[]") {
-							console.log("Images not found");
+				return (
+					imageDb.find({ "owner": user.id}, function(err, image) {
+						if(err) {
+							console.log("Failed to find images");
+							res.status(404).json({"message":"Failed to find images"});
 						} else {
-							console.log("Success in finding images");	
+							if(JSON.stringify(image) == "[]") {
+								console.log("Images not found");
+								res.status(404).json({"message":"Images not found"});
+							} else {
+								console.log("Success in finding images");	
+								res.status(200).json(image);
+							}
 						}
-						res.status(200).json(image);
-					}
-				});
+					})
+				);			
+				//---------	
 			}
-			res.status(200).json(image);
+			res.status(200).json("image");
 		}
 	});
 });
 
-//TODO: EI toimi
-// Find images by userId
+//Get images for userId
 apiRouter.get("/image/userid/:id", function(req,res) {
-	console.log("----------------------------------------");
-	console.log("GET /api/image/userid/"+req.params.text);
+	console.log("GET /api/image/userid/"+req.params.id);
 	console.log("req.params.id:");
 	console.log(req.params.id);
 	var search = req.params.id;
-	image.find({ "owner": req.params.id }, function(err, image) {
+
+	// Find images by userId
+	imageDb.find({ "owner": req.params.id}, function(err, image) {
 		if(err) {
-			console.log("Failed to find image");
-			res.status(404).json({"message":"Failed to find image"});
+			console.log("Failed to find images");
+			res.status(404).json({"message":"Failed to find images"});
 		} else {
 			if(JSON.stringify(image) == "[]") {
-				console.log("Image not found");
+				console.log("Images not found");
+				res.status(404).json({"message":"Images not found"});
 			} else {
-				console.log("Success in finding image");	
+				console.log("Success in finding images");	
+				res.status(200).json(image);
 			}
-			res.status(200).json(image);
 		}
 	});
 });
@@ -183,7 +228,7 @@ apiRouter.post("/image", function(req,res) {
 	console.log("POST /api/image");
 	console.log("req.body:");
 	console.log(req.body);
-	var temp = new image(req.body);
+	var temp = new imageDb(req.body);
 	console.log("temp:");
 	console.log(temp);
 	
@@ -207,7 +252,7 @@ apiRouter.post("/image/edit", function(req,res) {
 	console.log("temp:");
 	console.log(temp);
 	//TODO: Validointia parannettava
-	image.findOneAndUpdate({'imageId':req.body.imageId}, req.body, {upsert:true, new: true}, function(err,item) {
+	imageDb.findOneAndUpdate({'imageId':req.body.imageId}, req.body, {upsert:true, new: true}, function(err,item) {
 		if(err) {
 			console.log("Failed to save image. ("+err.message+")");
 			res.status(409).json({"Message":"Failed to save image"});
@@ -222,7 +267,7 @@ apiRouter.post("/image/edit", function(req,res) {
 apiRouter.delete("/image/:imageId", function(req,res) {
 	console.log("Delete image");
 	let id = req.params.imageId;
-	image.deleteOne({"imageId":id}, function(err) {
+	imageDb.deleteOne({"imageId":id}, function(err) {
 		if(err) {
 			console.log("Failed to remove image");
 			res.status(404).json({"message":"Failed to remove image"});
