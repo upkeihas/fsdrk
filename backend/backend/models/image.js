@@ -31,7 +31,7 @@ var schema = mongoose.Schema({
 	imageUrl: { type: String, validate: [isValidUrl, 'Invalid image Url.'], required:true },
 	description: { type: String, validate: [isValidString, 'Invalid image description.'], required:true },
 	timestamp: { type: String, validate: [isValidTimestamp, 'Invalid image timestamp.'], required:true },
-	owner: { type: String, validate: [isValidUser, 'Invalid image owner'], required:true },
+	userId: { type: String, validate: [isValidUser, 'Invalid image userId'], required:true },
 	likes: [ { type: String, validate: [isValidUser, 'Invalid image likes.'] } ], //user ids
 	tags: [ { type: String, validate: [isValidTag, 'Invalid image tags.'], default:"" } ],
 	viewState: { type: Boolean, default:true },
