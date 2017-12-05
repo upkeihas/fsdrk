@@ -14,7 +14,7 @@ let port = 3001;
 //Setup things
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/KopioGramDB2", {useMongoClient:true});
+mongoose.connect("mongodb://localhost/KopioGramDB", {useMongoClient:true});
 
 let app = express();
 

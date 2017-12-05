@@ -5,8 +5,6 @@ let imageDb = require("./models/image");
 let express = require("express");
 let apiRouter = express.Router();
 
-mongoose.connect("mongodb://localhost/KopioGramDB", {useMongoClient:true});
-
 apiRouter.currentUser = new userDb();
 
 apiRouter.setCurrentUser = function(user) {
