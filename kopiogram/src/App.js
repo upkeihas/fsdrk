@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavigationBar from './components/NavigationBar';
-import UserProfile from './components/UserProfile';
-import ImageGallery from './components/ImageGallery';
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import Main from './components/Main';
 
 class App extends Component {
 	
@@ -10,12 +10,18 @@ class App extends Component {
 		super(props);
 		this.state = {
 			numberOfImages:16,
-			isLogged:true,
+			chosenPage:"Main",
+			isLogged:false,
+			typeOfImages:"asd",
 //			token:""
-		}
+		};
+		this.onRegister = this.onRegister.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
 		this.onUpload = this.onUpload.bind(this);
+		this.onChosenPage = this.onChosenPage.bind(this);
+		
+		
 	}
 
 //	When upload button is pressed in NavigationBar.js this function is called
@@ -23,20 +29,44 @@ class App extends Component {
 		console.log("Upload images logic goes here");
 	}
 
-// Calling more functions from navbar: in and out
+// Calling more functions from navbar: register, in and out
 
-	onLogin(){
-		console.log("Logged in!");
+	onRegister(userinfo) {
+		console.log("App.js onRegister()");
+		console.log(userinfo);
+	}
+	
+	onLogin(userinfo){
+		console.log("App.js onLogin()");
+		console.log(userinfo);
 		this.setState({
-			isLogged:true
+			isLogged:true,
+			chosenPage:"Main"
 		})
 	}
 
 	onLogout(){
-		console.log("Logged out!");
+		console.log("App.js onLogout()");
 		this.setState({
-			isLogged:false
+			isLogged:false,
+			chosenPage:"Main"
 		})
+	}
+
+	onChosenPage(){
+		//Tännekki switch rakenne..?
+		console.log("App.js chosenPage()");
+		if (this.state.chosenPage == "Main") {
+			this.setState({
+				chosenPage:"Profile",
+				typeOfImages:"Profile"
+			})
+		}else{
+			this.setState({
+				chosenPage:"Main",
+				typeOfImages:"Main"
+			})
+		}
 	}
 		
 // LOGIN-JUTUT
@@ -78,9 +108,8 @@ class App extends Component {
   render() {
     return (
 		<div>
-		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin}/>
-		<UserProfile isLogged={this.state.isLogged}/>
-		<ImageGallery numberOfImages={this.state.numberOfImages}/>
+		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onChosenPage={this.onChosenPage} chosenPage={this.chosenPage}/>
+		<Main typeOfImages={this.state.typeOfImages} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages}/>
 		</div>
     );
   }
