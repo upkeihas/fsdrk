@@ -6,22 +6,23 @@ import Profile from './Profile';
 class Main extends React.Component {
 		
 	render() {
-		let tempThis;
+		let tempRender;
+
 		if (this.props.chosenPage == "Profile" && this.props.isLogged) {
-            tempThis =
+            tempRender =
 				<div>
-				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages}/>
+				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages} isLogged={this.props.isLogged}/>
 				<Profile chosenPage={this.props.chosenPage}/>
 				</div>
 		} else {
 
-		tempThis = 
+		tempRender = 
             <div>
-				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages}/>
+				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages} isLogged={this.props.isLogged}/>
 			</div>
 		}
 						
-		return tempThis;
+		return tempRender;
 		
 	}
 }

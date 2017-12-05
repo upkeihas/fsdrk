@@ -5,7 +5,6 @@
 footer {
 	text-align: center;
     color: grey;
-	border-style: dashed;
 }	
 /* Login dialog */
 .logindialog {
@@ -25,16 +24,13 @@ footer {
 .gallerycontainer {
 	margin: auto;
 	max-width: 1500px;
-	padding: 5px;
 }
 .galleryelement {
-	padding: 5px;
+	padding-top: 5px;
+	padding-bottom: 10px;	
 }
-  .bordered {
+.bordered {
     border-style: dashed;
-}
-.centered {
-	text-align: center;
 }
 .bigtext {
 	font-size: 20px;
@@ -42,44 +38,27 @@ footer {
 .biggertext {
 	font-size: 40px;
 }
-.viewcontainer {
-	position: relative;
-	max-width: 615px;
-	padding-bottom: 10px;
-	margin: auto;
-}
 .imagecontainer {
-	margin: auto;
-	padding: 5px;
+	padding-top: 5px;
+	padding-bottom: 10px;
 }
-.imagemenu {
-	position: absolute;
-	left: 93%;
+.flamers {
+	font-weight: bold;
 }
 .infocontainer {
-	padding-bottom: 5px;
+	padding: 5px;
 }
 .imageinfo {
 	resize: none;
-	width: 92%;
 	overflow: hidden;
 }
 .tags {
 	font-weight: bold;
 }
-.flame {
-	padding-bottom: 5px;
-}
 .commentsection {
 }
 .commentrow {
-	vertical-align: text-top;
 }
-.commenttext {
-	resize: none;
-	width: 87%;
-	overflow: hidden;
-}
-textarea {
-	border-style: none;
+img {
+	max-width:100%;
 }
