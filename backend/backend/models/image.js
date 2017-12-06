@@ -1,46 +1,46 @@
 var mongoose = require("mongoose");
 
+function isValidId (v) {
+	let status = v.length > 0;
+    return status;
+};
+function isValidUrl (v) {
+	let status = v.length > 2;
+    return status;
+};
+function isValidString (v) {
+	let status = v.length < 200;
+	return status;
+};
+function isValidTimestamp (v) {
+	let status = v.length > 1;
+    return status;
+};
+function isValidUser (v) {
+	let status = v.length > 0;
+    return status;
+};
+function isValidTag (v) {
+	let status = v.length < 100;
+    return status;
+};
+
+
 var schema = mongoose.Schema({
-	imageId:String,
-	imageUrl: String,
-	description: String,
-	timestamp: String,
-	owner: String,
-	likes: [String], //user ids
-	tags: [String],
+	imageId: { type: String, validate: [isValidId, 'Invalid image id.'], index:true, required:true },
+	imageUrl: { type: String, validate: [isValidUrl, 'Invalid image Url.'], required:true },
+	description: { type: String, validate: [isValidString, 'Invalid image description.'], required:true },
+	timestamp: { type: String, validate: [isValidTimestamp, 'Invalid image timestamp.'], required:true },
+	userId: { type: String, validate: [isValidUser, 'Invalid image userId'], required:true },
+	likes: [ { type: String, validate: [isValidUser, 'Invalid image likes.'] } ], //user ids
+	tags: [ { type: String, validate: [isValidTag, 'Invalid image tags.'], default:"" } ],
+	viewState: { type: Boolean, default:true },
 	comments: [{ 
-//		userId:String,
-//		timestamp: String,
-//		comment: String
+		userId: { type: String, validate: [isValidUser, 'Invalid user in image comment.'] },
+		timestamp: { type: String, validate: [isValidTimestamp, 'Invalid timestamp in image comment.'] },
+		comment: { type: String, validate: [isValidString, 'Invalid image comment.'] }
 	}]
 
 });
 
 module.exports = mongoose.model("Image", schema);
-
-/*
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
-
-var commentSchema = new Schema({
-	 comment: String,
-	 userId: String,
-	 timestamp: String
-});
-
-var Commentb = mongoose.model('Commentb',commentSchema);
-
-Commentb['Commentb'] = Commentb;
-
-var imageSchema = new Schema({
-	owner: String,
-	imageUrl: String,
-    comments: [Commentb["Commentb"].schema]
-});
-
-var Image = mongoose.model('Image',imageSchema);
-
-Image['Image'] = Image;
-
-module.exports = Image;
-*/

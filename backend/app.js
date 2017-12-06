@@ -2,7 +2,7 @@ let express = require("express");
 let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 let bluebird = require("bluebird");
-let user = require("./backend/models/user");
+let userDb = require("./backend/models/user");
 let apiRouter = require("./backend/apirouter");
 let session = require("express-session");
 let mongoStore = require("connect-mongo")(session);
@@ -43,11 +43,11 @@ passport.serializeUser(function(user,done) {
 
 passport.deserializeUser(function(_id,done) {
 	console.log("Deserialize user");
-	user.findOne({"_id":_id}, function(err,user) {
+	userDb.findOne({"_id":_id}, function(err,user) {
 		if (err) {
 			console.log("Error in deSerializing user");
 		} else {
-			console.log("User found: "+user.username);
+			if(user) { console.log("User found: "+user.username); }
 			return done(null, user);
 		}
 	});
@@ -60,7 +60,7 @@ passport.use("login-local", new localStrategy({
 	passReqToCallback: true
 } ,function(req, username, password, done) {
 	console.log("login-local");
-	user.findOne({"username":username}, function(err, user) {
+	userDb.findOne({"username":username}, function(err, user) {
 		if(err) {
 			console.log("login-local err");
 			return done(null, false, {"message":"No such user or password"})
@@ -87,18 +87,31 @@ function isUserAuthenticated(req, res, next) {
 	}
 }
 
+
 // Login, logout, register
 
 app.post("/login", 
 	passport.authenticate("login-local",{failureRedirect:'/'}),
 	function(req,res) {
-		req.session.hello = "Hello";
+		console.log("req.body.username="+req.body.username);
+		apiRouter.setCurrentUser(req.body);
+		console.log("/login");
 		res.status(200).json({"message":"success","token":"token"});
+		req.session.hello = "Hello";
+		userDb.findOne({"username":apiRouter.getCurrentUser().username}, function(err,user) {
+			if(err) {
+				console.log("Cannot find user");
+			} else {
+				console.log("User found");
+				apiRouter.setCurrentUser(user);
+			}				
+		});
+		
 });
 	
 app.post('/register', function(req,res) {
-	console.log("login:"+JSON.stringify(req.body));
-	user.find({"username":req.body.username}, function(err,item) {
+	console.log("register:"+JSON.stringify(req.body));
+	userDb.find({"username":req.body.username}, function(err,item) {
 		if(err) {
 			console.log("Register: Finding existing users error");
 			res.status(409).end(JSON.stringify({"message":"username already in use"}));			
@@ -110,14 +123,9 @@ app.post('/register', function(req,res) {
 				res.status(409).end(JSON.stringify({"message":"username already in use"}));			
 				return;
 			} else {						
-				let temp = new user({});
-				temp.username = req.body.username;
-				temp.password = temp.generateHash(req.body.password);
-				temp.email = req.body.email;
-				temp.role = req.body.role;
-				temp.profileImage = req.body.profileImage;
-				console.log("temp:");
-				console.log(temp);
+				let temp = new userDb(req.body);
+				temp.username=req.body.username;
+				temp.password= temp.generateHash(req.body.password);
 				
 				temp.save(function(err,item) {
 					if(err){
@@ -148,6 +156,38 @@ app.post("/logout",function(req,res) {
 	}
 	res.status(404).json({"message":"bad logout"});
 });
+
+//Get sample images (amount of latest images)
+app.get("/list/:amount", function(req,res) {
+	let amount = 12;
+	if (Number(req.params.amount) > 0) {
+		amount = Number(req.params.amount);
+	}
+	console.log("GET /list/"+amount);
+	apiRouter.getDefaultImages(amount, function(err,images) {
+		if(err) {
+			console.log("Failed to load images");
+			res.status(404).json({"Message":"No images found"});
+		} else {
+			console.log("Images found");
+			res.status(200).json(images);
+		}	
+	});
+});
+
+//Get sample images (12 latest images)
+app.get("/list", function(req,res) {
+	console.log("GET /list");
+	apiRouter.getDefaultImages(12, function(err,images) {
+		if(err) {
+			console.log("Failed to load images");
+			res.status(404).json({"Message":"No images found"});
+		} else {
+			res.status(200).json(images);
+		}	
+	});
+});
+
 
 // Contact api, middleware to check authentication
 

@@ -2,11 +2,13 @@ var mongoose = require("mongoose");
 var bcrypt = require("bcrypt-nodejs");
 
 var schema = mongoose.Schema({
-	username: String, //{ type:String, index:true, required:true,	unique:true},
-	email: String, //{ type:String, index:true, required:true },
-  password: String, //{ type:String, required:true },
-	role: String, //{	type:String, required:true },
-	profileImage: String,
+	//id: { type:String, /*index:true, */required:true,	/*unique:true*/},
+	username: { type:String, /*index:true, */required:true,	/*unique:true*/},
+	email: { type:String, required:true },
+  password: { type:String, /*select: false,*/ required:true },
+	userType: {	type:Boolean, default:false }, // true=admin
+	adminEnabled: {	type:Boolean, default:false }, 
+	profileImage: { type:String, default:"defaultuser.jpg"},
   images: [String],
 	// follower and following must be move to separate table if over 10 000 users.
   following: [String],
@@ -14,12 +16,13 @@ var schema = mongoose.Schema({
 });
 
 schema.methods.generateHash = function(password) {
+	console.log("generateHash");
 	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
 schema.methods.isPasswordValid = function(password) {
 	console.log("compareSync "+password+" "+this.password);
-	console.log(this);
+//	console.log(this);
 	return bcrypt.compareSync(password, this.password);
 }
 
