@@ -13,7 +13,9 @@ class App extends Component {
 			chosenPage:"Main",
 			isLogged:false,
 			typeOfImages:"asd",
-//			token:""
+//			token:"",
+			username:"",
+			password:""
 		};
 		this.onRegister = this.onRegister.bind(this);
 		this.onLogin = this.onLogin.bind(this);
@@ -32,25 +34,76 @@ class App extends Component {
 // Calling more functions from navbar: register, in and out
 
 	onRegister(userinfo) {
-		console.log("App.js onRegister()");
-		console.log(userinfo);
+		
+		let registerFetch={
+		method: "POST",
+		headers:{"Content-Type":"application/json"},
+		mode:"cors",
+		body:JSON.stringify({"username":userinfo.username,
+							 "password":userinfo.password,
+							 "email":"Dummy@mail.com"}) // TODO "email":userinfo.email, <- edit LoginForm
+		}
+		
+		fetch("/register",registerFetch).then((response)=>{
+			if(response.ok){
+				response.json().then((data)=>{
+					console.log("Registered username: " +userinfo.username);
+					this.setState({
+						isLogged:false,
+						chosenPage:"Main"
+					})
+				});
+			}
+		});
 	}
 	
 	onLogin(userinfo){
-		console.log("App.js onLogin()");
-		console.log(userinfo);
-		this.setState({
-			isLogged:true,
-			chosenPage:"Main"
-		})
+		
+		let loginFetch={
+		method: "POST",
+		headers:{"Content-Type":"application/json"},
+		mode:"cors",
+		body:JSON.stringify({"username":userinfo.username,
+							 "password":userinfo.password,
+							 "email":"Dummy@mail.com"}) // TODO "email":userinfo.email, <- edit LoginForm
+		}
+		
+		fetch("/login",loginFetch).then((response)=>{
+			if(response.ok){
+				response.json().then((data)=>{
+					console.log("Logged in: " +userinfo.username);
+					this.setState({
+						isLogged:true,
+						username:userinfo.username,
+						chosenPage:"Main"
+					})
+				});
+			}else{
+				console.log("Login: Something went wrong.");
+			}
+		});
 	}
-
+	
 	onLogout(){
-		console.log("App.js onLogout()");
-		this.setState({
-			isLogged:false,
-			chosenPage:"Main"
-		})
+
+		let logoutFetch={
+		method: "POST",
+		headers:{"Content-Type":"application/json"},
+		mode:"cors",
+		body:JSON.stringify({"token":this.state.token})
+		}
+		
+		fetch("/logout",logoutFetch).then((response)=>{
+			if(response.ok){
+				response.json().then((data)=>{
+					this.setState({
+						isLogged:false,
+						username:"",
+						chosenPage:"Main"
+					})
+				});
+			}
+		});
 	}
 
 	onChosenPage(){
@@ -108,8 +161,8 @@ class App extends Component {
   render() {
     return (
 		<div>
-		<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onChosenPage={this.onChosenPage} chosenPage={this.chosenPage}/>
-		<Main typeOfImages={this.state.typeOfImages} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages}/>
+			<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onChosenPage={this.onChosenPage} chosenPage={this.chosenPage}/>
+			<Main typeOfImages={this.state.typeOfImages} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages}/>
 		</div>
     );
   }
