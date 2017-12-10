@@ -53,13 +53,13 @@ class ModalViewer extends Component {
 							<span id="result" className="flamers"></span>
 							<div className="infocontainer row">
 								<div className="col-sm-2">
-									<i className="glyphicon glyphicon-user biggertext" onclick="alert('Lisääjän profiilisivu')"></i>
+									<i className="glyphicon glyphicon-user biggertext" onClick="alert('Lisääjän profiilisivu')"></i>
 								</div>
 								<div className="col-sm-8">
 									<span className="imageinfo commentmessage">Lorem ipsum hieno kuva kekeke otitko itse? Single-origin coffee succulents shabby chic irony poke.</span>
 								</div>
 								<div className="col-sm-2">
-									<button className="btn btn-default glyphicon glyphicon-menu-hamburger" onclick="alert('Kuvamenu')"></button>
+									<button className="btn btn-default glyphicon glyphicon-menu-hamburger" onClick="alert('Kuvamenu')"></button>
 								</div>
 							</div>
 							<span className="tags">#tagi #toinentagi #kolmastagi #fsdrk #reactonkivaa</span>
@@ -68,13 +68,13 @@ class ModalViewer extends Component {
 								<div className="well well-sm">
 									<div className="row commentrow">
 										<div className="col-sm-2">
-											<div className="well well-sm"><i className="glyphicon glyphicon-user biggertext" onclick="alert('Profiilisivu');"></i></div>
+											<div className="well well-sm"><i className="glyphicon glyphicon-user biggertext" onClick="alert('Profiilisivu');"></i></div>
 										</div>
 										<div className="col-sm-8">
 											<div className="commentmessage">Single-origin coffee succulents shabby chic irony poke. Bicycle rights gluten-free brunch, cred slow-carb air plant microdosing cardigan organic photo booth jean shorts. Edison bulb gastropub literally, irony pop-up echo park mustache fam blue bottle whatever. Gentrify vape franzen, waistcoat hammock selvage ethical sustainable green juice four loko succulents shoreditch. Stumptown neutra hexagon chicharrones, knausgaard adaptogen austin pok pok poke kickstarter jianbing venmo pug synth. Actually pug craft beer offal.</div>
 										</div>
 										<div className="col-sm-2">	
-											<button className="btn btn-default commentmenu glyphicon glyphicon-option-horizontal bigtext" onclick="alert('Kommenttimenu');"></button>
+											<button className="btn btn-default commentmenu glyphicon glyphicon-option-horizontal bigtext" onClick="alert('Kommenttimenu');"></button>
 										</div>
 									</div>
 								</div>
@@ -83,12 +83,12 @@ class ModalViewer extends Component {
 									<div className="row commentrow">
 										<form>
 											<div className="form-group">
-												<label for="comment" className="col-sm-2 col-form-label"><i className="glyphicon glyphicon-user biggertext" onclick="alert('Profiilisivu');"></i></label>			
+												<label for="comment" className="col-sm-2 col-form-label"><i className="glyphicon glyphicon-user biggertext" onClick="alert('Profiilisivu');"></i></label>			
 												<div className="col-sm-8">
 													<input type="text" className="form-control" id="comment" placeholder="Write a comment"></input>								
 												</div>
 												<div className="col-sm-2">	
-													<button onclick="alert('Comment submitted')" className="btn btn-primary"><i className="glyphicon glyphicon-comment" title="Comment!"></i></button>
+													<button onClick="alert('Comment submitted')" className="btn btn-primary"><i className="glyphicon glyphicon-comment" title="Comment!"></i></button>
 												</div>
 											</div>
 										</form>

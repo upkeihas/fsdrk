@@ -29,11 +29,11 @@ class ImageGallery extends Component {
 		
 		if (imageselection == "Main") {
 			for (var i=0; i<numberofimages; i++){
-				elementList.push(<GalleryElement url="images/365kertaa365.png" openViewer={this.openViewer} isLogged={this.props.isLogged}/>);
+				elementList.push(<GalleryElement url="images/365kertaa365.png" openViewer={this.openViewer} isLogged={this.props.isLogged} key={i}/>);
 		}
 		}else{
 			for (var i=0; i<numberofimages; i++){
-				elementList.push(<GalleryElement url="images/365x365.png" openViewer={this.openViewer} isLogged={this.props.isLogged}/>);
+				elementList.push(<GalleryElement url="images/365x365.png" openViewer={this.openViewer} isLogged={this.props.isLogged} key={i}/>);
 			}
 		}
 		
