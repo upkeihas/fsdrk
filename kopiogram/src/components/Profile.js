@@ -6,6 +6,7 @@ class Profile extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
+			userName:this.props.userName,
 			chosenPage:this.props.chosenPage
 		}
 		
@@ -19,7 +20,7 @@ class Profile extends React.Component {
 				tempRender =
 
 					<div>
-						<UserProfile/>
+						<UserProfile userName={this.state.userName}/>
 					</div>
 
 			}else{

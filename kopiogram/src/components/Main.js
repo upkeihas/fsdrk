@@ -12,7 +12,7 @@ class Main extends React.Component {
             tempRender =
 				<div>
 				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages} isLogged={this.props.isLogged}/>
-				<Profile chosenPage={this.props.chosenPage}/>
+				<Profile chosenPage={this.props.chosenPage} userName={this.props.userName}/>
 				</div>
 		} else {
 

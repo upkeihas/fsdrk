@@ -14,15 +14,13 @@ class App extends Component {
 			isLogged:false,
 			typeOfImages:"asd",
 //			token:"",
-			username:"",
-			password:""
+			userName:""
 		};
 		this.onRegister = this.onRegister.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
 		this.onUpload = this.onUpload.bind(this);
 		this.onChosenPage = this.onChosenPage.bind(this);
-		
 		
 	}
 
@@ -74,7 +72,7 @@ class App extends Component {
 					console.log("Logged in: " +userinfo.username);
 					this.setState({
 						isLogged:true,
-						username:userinfo.username,
+						userName:userinfo.username,
 						chosenPage:"Main"
 					})
 				});
@@ -98,7 +96,7 @@ class App extends Component {
 				response.json().then((data)=>{
 					this.setState({
 						isLogged:false,
-						username:"",
+						userName:"",
 						chosenPage:"Main"
 					})
 				});
@@ -162,7 +160,7 @@ class App extends Component {
     return (
 		<div>
 			<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onChosenPage={this.onChosenPage} chosenPage={this.chosenPage}/>
-			<Main typeOfImages={this.state.typeOfImages} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages}/>
+			<Main typeOfImages={this.state.typeOfImages} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages} userName={this.state.userName}/>
 		</div>
     );
   }
