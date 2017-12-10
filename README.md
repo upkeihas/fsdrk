@@ -21,3 +21,5 @@ Erästä suosittua internetin kuvapalvelua mukaillen tehty full stack dev -kurss
 * MongoDB, Mongoose
 * REST API
 
+## Vaatimukset
+* MongoDB@localhost
