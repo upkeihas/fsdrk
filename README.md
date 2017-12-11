@@ -14,12 +14,11 @@ Erästä suosittua internetin kuvapalvelua mukaillen tehty full stack dev -kurss
 
 
 ### Teknologiat
-
 * ECMAScript, React, node.js
 * HTML 5, JSX
-* CSS, BootStrap
+* CSS, BootStrap, W3.CSS
 * MongoDB, Mongoose
 * REST API
 
-## Vaatimukset
+### Vaatimukset
 * MongoDB@localhost
