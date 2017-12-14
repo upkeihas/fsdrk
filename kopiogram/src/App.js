@@ -106,7 +106,7 @@ class App extends Component {
 
 	onChosenPage(chosenpage){
 		//Tännekki switch rakenne..?
-		console.log("App.js chosenPage()" +chosenpage);
+		console.log("App.js chosenPage()");
 		if (chosenpage == "Main") {
 			this.setState({
 				chosenPage:"Profile",
