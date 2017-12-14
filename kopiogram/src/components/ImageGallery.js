@@ -11,7 +11,8 @@ class ImageGallery extends Component {
 	}
 	
 	// Image Gallery owns modal viewer, and this is the way it should be
-	openViewer() {
+	openViewer(imageId) {
+		console.log("Image id to show in viewer: "+imageId); 
 		document.getElementById('modalviewer').style.display = "block";
 	}
 
@@ -21,19 +22,31 @@ class ImageGallery extends Component {
 
 	render() {
 
-		//TODO: fetch image url list from db
+		//TODO: fetch image url list from api
 		let imageselection = this.props.typeOfImages;
 		let numberofimages = this.props.numberOfImages;
+		let imageList = {"images":[{"id":"123","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"234","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"234","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"345","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"456","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"567","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"678","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"789","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"890","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"901","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"012","imageUrl":"http://lataamo.eu/kuvat/365x365.png"},
+						{"id":"210","imageUrl":"http://lataamo.eu/kuvat/365x365.png"}]};
 		let elementList=[];
 		
 		
 		if (imageselection == "Main") {
-			for (var i=0; i<numberofimages; i++){
-				elementList.push(<GalleryElement url="images/365kertaa365.png" openViewer={this.openViewer} isLogged={this.props.isLogged} key={i}/>);
-		}
+			for (var key in imageList.images){
+				elementList.push(<GalleryElement imageUrl={imageList.images[key].imageUrl} openViewer={this.openViewer} isLogged={this.props.isLogged} imageId={imageList.images[key].id} key={key}/>);
+			}
 		}else{
-			for (var i=0; i<numberofimages; i++){
-				elementList.push(<GalleryElement url="images/365x365.png" openViewer={this.openViewer} isLogged={this.props.isLogged} key={i}/>);
+			for (let i=0; i<numberofimages; i++){
+				elementList.push(<GalleryElement imageUrl="images/365kertaa365.png" openViewer={this.openViewer} isLogged={this.props.isLogged} imageId={i} key={i}/>);
 			}
 		}
 		

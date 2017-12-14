@@ -57,7 +57,7 @@ class NavigationBar extends React.Component {
 				chosenPage:"Main"
 			});
 		}
-		this.props.onChosenPage();
+		this.props.onChosenPage(this.state.chosenPage);
 	}
 
         render(){

@@ -12,7 +12,7 @@ class App extends Component {
 			numberOfImages:16,
 			chosenPage:"Main",
 			isLogged:false,
-			typeOfImages:"asd",
+			typeOfImages:"Main",
 //			token:"",
 			userName:""
 		};
@@ -104,10 +104,10 @@ class App extends Component {
 		});
 	}
 
-	onChosenPage(){
+	onChosenPage(chosenpage){
 		//Tännekki switch rakenne..?
-		console.log("App.js chosenPage()");
-		if (this.state.chosenPage == "Main") {
+		console.log("App.js chosenPage()" +chosenpage);
+		if (chosenpage == "Main") {
 			this.setState({
 				chosenPage:"Profile",
 				typeOfImages:"Profile"
@@ -159,7 +159,7 @@ class App extends Component {
   render() {
     return (
 		<div>
-			<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onChosenPage={this.onChosenPage} chosenPage={this.chosenPage}/>
+			<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onChosenPage={this.onChosenPage} chosenPage={this.state.chosenPage}/>
 			<Main typeOfImages={this.state.typeOfImages} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages} userName={this.state.userName}/>
 		</div>
     );
