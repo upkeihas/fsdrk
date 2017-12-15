@@ -1,14 +1,45 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcrypt-nodejs");
 
+//TODO: Check validation limits
+function isValidUsername (v) {
+	return v.length > 2;
+};
+function isValidEmail (v) {
+	return v.length > 2;
+};
+function isValidPassword (v) {
+	return v.length > 3;
+};
+
 var schema = mongoose.Schema({
 	//id: { type:String, /*index:true, */required:true,	/*unique:true*/},
-	username: { type:String, /*index:true, */required:true,	/*unique:true*/},
-	email: { type:String, required:true },
-  password: { type:String, /*select: false,*/ required:true },
-	userType: {	type:Boolean, default:false }, // true=admin
-	adminEnabled: {	type:Boolean, default:false }, 
-	profileImage: { type:String, default:"defaultuser.jpg"},
+	username: {
+		type:String,
+		validate: [isValidUsername, 'invalid username'],
+		required:true
+	},
+	email: {
+		type:String,
+		validate: [isValidEmail, 'invalid email']
+	},
+  password: {
+		type:String,
+		validate: [isValidPassword, 'invalid password'],
+		required:true
+	},
+	userType: {
+		type:Boolean, // true=admin
+		default:false
+	},
+	adminEnabled: {
+		type:Boolean,
+		default:false
+	},
+	profileImage: {
+		type:String,
+		default:"defaultuser.jpg"
+	},
   images: [String],
 	// follower and following must be move to separate table if over 10 000 users.
   following: [String],

@@ -241,7 +241,7 @@ apiRouter.post('/user/edit', function(req,res) {
 
 apiRouter.getDefaultImages = function(amount, callback) {
 	console.log("getDefaultImages");
-	imageDb.find().sort({_id:-1}).limit(amount).lean().exec(function(err,images) {
+	imageDb.find({},{_id:1, imageUrl:1}).sort({_id:-1}).limit(amount).lean().exec(function(err,images) {
 		if(err) {
 			console.log("Failed to load images. Error:"+err.message);
 			return callback(err,images);
@@ -252,10 +252,22 @@ apiRouter.getDefaultImages = function(amount, callback) {
 	});
 };
 
-//Get all images
-apiRouter.get("/images", function(req,res) {
-	console.log("GET /api/images");
-	imageDb.find().lean().exec(function(err,images) {
+//Get images 
+// params: amount pcs of images
+// query: userId: "345445435345"
+// Example: Send 7 images where userId = 5a26437702c3ce5344fa4a54 and viewState = true
+//localhost:3001/api/images/7?userId=5a26437702c3ce5344fa4a54&viewState=true
+
+apiRouter.get("/images/:amount", function(req,res) {
+	let amount = 12;
+	if (Number(req.params.amount) > 0) {
+		amount = Number(req.params.amount);
+	}
+	console.log("GET /api/images/"+amount);
+	console.log("req.query:");
+	console.log(req.query);
+
+	imageDb.find(req.query, "_id imageUrl").limit(amount).lean().exec(function(err,images) {
 		if(err) {
 			console.log("Failed to load images. Error:"+err.message);
 			res.status(404).json({"Message":"No images found"});
@@ -266,12 +278,47 @@ apiRouter.get("/images", function(req,res) {
 	});
 });
 
-// Get image by id
+// Get image by _id
+//
+// Example: Send _id, imageUrl, description, comments and likes:
+// localhost:3001/api/image/5a3383fab9468e19c453b9f4?comments=1&likes=1
+
 apiRouter.get("/image/:id", function(req,res) {
 	console.log("GET /api/image/:id");
 	console.log("req.params.id="+req.params.id);
+	console.log("req.query:");
+	console.log(req.query);
 	let id = req.params.id;
-	imageDb.find({"_id":id}).lean().exec(function(err, image) {
+	let query = {"_id":id};
+	var select = "";
+	
+	// Select fields to be returned (empty and 'all' select all fields)
+	if(JSON.stringify(req.query) != "{}") {
+		select = '_id imageUrl description';
+		if(!!req.query.imageId) {
+			select += ' imageId';
+		}
+		if(!!req.query.comments) {
+			select += ' comments';
+		}
+		if(!!req.query.userId) {
+			select += ' userId';
+		}
+		if(!!req.query.likes) {
+			select += ' likes';
+		}
+		if(!!req.query.tags) {
+			select += ' tags';
+		}
+		if(!!req.query.viewState) {
+			select += ' viewState';
+		}
+		if(!!req.query.all) {
+			select = '';
+		}
+	}
+
+	imageDb.find(query, select).lean().exec(function(err, image) {
 		if(err) {
 			console.log("Failed to find image. Error:"+err.message);
 			res.status(404).json({"message":"Failed to find image"});
@@ -305,6 +352,49 @@ apiRouter.get("/imageid/:id", function(req,res) {
 		}
 	});
 });
+
+apiRouter.getImage = function(req, callback) {
+	console.log("getImage");
+	let id = req.params.id;
+	let query = {"_id":id};
+	var select = "";
+	
+	// Select fields to be returned (empty and 'all' select all fields)
+	if(JSON.stringify(req.query) != "{}") {
+		select = '_id imageUrl description';
+		if(!!req.query.imageId) {
+			select += ' imageId';
+		}
+		if(!!req.query.comments) {
+			select += ' comments';
+		}
+		if(!!req.query.userId) {
+			select += ' userId';
+		}
+		if(!!req.query.likes) {
+			select += ' likes';
+		}
+		if(!!req.query.tags) {
+			select += ' tags';
+		}
+		if(!!req.query.viewState) {
+			select += ' viewState';
+		}
+		if(!!req.query.all) {
+			select = '';
+		}
+	}
+
+	imageDb.find(query, select).lean().exec(function(err, image) {
+		if(err) {
+			console.log("Failed to load image. Error:"+err.message);
+			return callback(err,image);
+		} else {
+			console.log("Success in finding image");
+			return callback(err,image);
+		}	
+	});
+};
 
 // Get image by imageUrl
 apiRouter.get("/imageurl/:imageUrl", function(req,res) {

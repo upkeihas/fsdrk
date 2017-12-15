@@ -158,12 +158,12 @@ app.post("/logout",function(req,res) {
 });
 
 //Get sample images (amount of latest images)
-app.get("/list/:amount", function(req,res) {
+app.get("/images/:amount", function(req,res) {
 	let amount = 12;
 	if (Number(req.params.amount) > 0) {
 		amount = Number(req.params.amount);
 	}
-	console.log("GET /list/"+amount);
+	console.log("GET /images/"+amount);
 	apiRouter.getDefaultImages(amount, function(err,images) {
 		if(err) {
 			console.log("Failed to load images");
@@ -176,14 +176,31 @@ app.get("/list/:amount", function(req,res) {
 });
 
 //Get sample images (12 latest images)
-app.get("/list", function(req,res) {
-	console.log("GET /list");
+app.get("/images", function(req,res) {
+	console.log("GET /images");
 	apiRouter.getDefaultImages(12, function(err,images) {
 		if(err) {
 			console.log("Failed to load images");
 			res.status(404).json({"Message":"No images found"});
 		} else {
 			res.status(200).json(images);
+		}	
+	});
+});
+
+// Get image by _id
+//
+// Example: Send _id, imageUrl, description, commnts and likes:
+// localhost:3001/image/5a3383fab9468e19c453b9f4?comments=1&likes=1
+
+app.get("/image/:id", function(req,res) {
+	console.log("GET /image/:id");
+	apiRouter.getImage(req, function(err,image) {
+		if(err) {
+			console.log("Failed to load image");
+			res.status(404).json({"Message":"Image not found"});
+		} else {
+			res.status(200).json(image);
 		}	
 	});
 });
