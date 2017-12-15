@@ -27,19 +27,61 @@ function isValidTag (v) {
 
 
 var schema = mongoose.Schema({
-	imageId: { type: String, validate: [isValidId, 'Invalid image id.'], index:true, required:true },
-	imageUrl: { type: String, validate: [isValidUrl, 'Invalid image Url.'], required:true },
-	description: { type: String, validate: [isValidString, 'Invalid image description.'], required:true },
-	timestamp: { type: String, validate: [isValidTimestamp, 'Invalid image timestamp.'], required:true },
-	userId: { type: String, validate: [isValidUser, 'Invalid image userId'], required:true },
-	likes: [ { type: String, validate: [isValidUser, 'Invalid image likes.'] } ], //user ids
-	tags: [ { type: String, validate: [isValidTag, 'Invalid image tags.'], default:"" } ],
-	viewState: { type: Boolean, default:true },
-	comments: [{ 
-		userId: { type: String, validate: [isValidUser, 'Invalid user in image comment.'] },
-		timestamp: { type: String, validate: [isValidTimestamp, 'Invalid timestamp in image comment.'] },
-		comment: { type: String, validate: [isValidString, 'Invalid image comment.'] }
-	}]
+	imageId: {
+		type: String,
+		validate: [isValidId, 'Invalid image id.'],
+		index: true
+	},
+	imageUrl: {
+		type: String,
+		validate: [isValidUrl, 'Invalid image Url.'],
+		required: true
+	},
+	description: {
+		type: String,
+		validate: [isValidString, 'Invalid image description.']
+	},
+	timestamp: {
+		type: String,
+		validate: [isValidTimestamp, 'Invalid image timestamp.']
+	},
+	userId: {
+		type: String,
+		validate: [isValidUser, 'Invalid image userId'],
+		required: true },
+	likes: [
+		{
+			type: String,
+			validate: [isValidUser, 'Invalid user in image likes.'] //user ids
+		}
+	],
+	tags: [
+		{
+			type: String,
+			validate: [isValidTag, 'Invalid image tags.'],
+			default:""
+		}
+	],
+	viewState: {
+		type: Boolean,
+		default:true
+	},
+	comments: [
+		{
+			userId: {
+				type: String,
+				validate: [isValidUser, 'Invalid user in image comment.']
+			},
+			timestamp: {
+				type: String,
+				validate: [isValidTimestamp, 'Invalid timestamp in image comment.']
+			},
+			comment: {
+				type: String,
+				validate: [isValidString, 'Invalid image comment.']
+			}
+		}
+	]
 
 });
 
