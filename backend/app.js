@@ -14,7 +14,7 @@ let port = 3001;
 //Setup things
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/KopioGramDBa", {useMongoClient:true});
+mongoose.connect("mongodb://localhost/KopioGramDB", {useMongoClient:true});
 
 let app = express();
 
@@ -95,7 +95,7 @@ app.post("/login",
 	function(req,res) {
 		console.log("req.body.username="+req.body.username);
 		console.log("/login");
-		res.status(200).json({"message":"success","token":"token"});
+		res.status(200).json({"message":"success","token":"3475fg34"});
 		userDb.findOne({"username":req.body.username}, function(err,user) {
 			if(err) {
 				console.log("Cannot find user");
