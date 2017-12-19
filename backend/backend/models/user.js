@@ -13,9 +13,10 @@ function isValidPassword (v) {
 };
 
 var schema = mongoose.Schema({
-	//id: { type:String, /*index:true, */required:true,	/*unique:true*/},
+
 	username: {
 		type:String,
+		index: true,
 		validate: [isValidUsername, 'invalid username'],
 		required:true
 	},
@@ -23,7 +24,7 @@ var schema = mongoose.Schema({
 		type:String,
 		validate: [isValidEmail, 'invalid email']
 	},
-  password: {
+	password: {
 		type:String,
 		validate: [isValidPassword, 'invalid password'],
 		required:true
@@ -40,10 +41,10 @@ var schema = mongoose.Schema({
 		type:String,
 		default:"defaultuser.jpg"
 	},
-  images: [String],
+	images: [String],
 	// follower and following must be move to separate table if over 10 000 users.
-  following: [String],
-  follower: [String]
+	following: [String],
+	follower: [String]
 });
 
 schema.methods.generateHash = function(password) {
