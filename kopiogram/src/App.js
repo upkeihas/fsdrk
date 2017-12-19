@@ -3,6 +3,7 @@ import './App.css';
 import NavigationBar from './components/NavigationBar';
 import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import Main from './components/Main';
+import cloudinary from 'cloudinary';
 
 class App extends Component {
 	
@@ -22,11 +23,22 @@ class App extends Component {
 		this.onUpload = this.onUpload.bind(this);
 		this.onChosenPage = this.onChosenPage.bind(this);
 		
+		cloudinary.config({
+			cloud_name: 'fsdrk',
+			api_key: '659274845159812',
+			api_secret: '4tcWnRrxsrqzgPxKWRS78ACsMrM'
+		});
 	}
 
-//	When upload button is pressed in NavigationBar.js this function is called
-	onUpload(){
-		console.log("Upload images logic goes here");
+	onUpload(uploadInput){
+		console.log(uploadInput);
+
+		cloudinary.v2.uploader.upload('https://dncache-mauganscorp.netdna-ssl.com/thumbseg/1448/1448278-bigthumbnail.jpg',
+			function(error, result){console.log(result)});
+
+		// Tuo toimii, esimerkki kuva lentää cloudinaryyn... Mutta pitäs tosiaan saada tuo file heitettyä sillä fetchillä backendin kautta.
+		// Tunnukset: huthut92@gmail.com	pw: Fsdrk123
+
 	}
 
 // Calling more functions from navbar: register, in and out
@@ -160,7 +172,7 @@ class App extends Component {
     return (
 		<div>
 			<NavigationBar isLogged={this.state.isLogged} onUpload={this.onUpload} onLogout={this.onLogout} onLogin={this.onLogin} onRegister={this.onRegister} onChosenPage={this.onChosenPage} chosenPage={this.state.chosenPage}/>
-			<Main typeOfImages={this.state.typeOfImages} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages} userName={this.state.userName}/>
+			<Main typeOfImages={this.state.typeOfImages} onUpload={this.onUpload} isLogged={this.state.isLogged} chosenPage={this.state.chosenPage} numberOfImages={this.state.numberOfImages} userName={this.state.userName}/>
 		</div>
     );
   }

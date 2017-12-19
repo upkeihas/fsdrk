@@ -3,9 +3,20 @@ import {Switch,Route,Redirect} from 'react-router-dom';
 import ImageGallery from './ImageGallery';
 import Profile from './Profile';
 import RegistrationForm from './RegistrationForm';
+import Upload from './Upload';
 
 class Main extends React.Component {
-		
+	
+	constructor(props){
+		super(props);	
+		this.onUpload = this.onUpload.bind(this);
+
+	}
+
+	onUpload(uploadInput){
+		this.props.onUpload(uploadInput); // this prop function is the parent component's (App.js) function onUpload()
+	}
+	
 	render() {
 		let tempRender;
 
@@ -19,8 +30,8 @@ class Main extends React.Component {
 
 		tempRender = 
             <div>
-				<RegistrationForm/>
 				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages} isLogged={this.props.isLogged}/>
+				<Upload onUpload={this.onUpload}/>
 			</div>
 		}
 						
