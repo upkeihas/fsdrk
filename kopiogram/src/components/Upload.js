@@ -23,7 +23,7 @@ class Upload extends Component {
     }
     
     onUpload(){
-        this.props.onUpload(this.state.uploadInput);
+		this.props.onUpload(this.state.uploadInput);
 		this.setState=({
 			uploadInput:""
 		});
@@ -34,23 +34,21 @@ class Upload extends Component {
 				uploadInput:event.target.files[0]
 			});
 	}
-   
-    render() {
 
-       return ( <div>
-           Description: <br></br>
-           Tags:    <br></br><br></br>
-            <form id="file-form" method="post" encType="multipart/form-data">
-            <input id="uploadinput" type="file" name="file" multiple="multiple" onChange={this.onChange}></input><br></br><br></br>
-                </form>
-           
-           <button class="btn btn-lg upload-btn" type="button" onClick={this.onUpload}>Upload File</button>
-            
-           </div>
-           )
+	render() {
 
-    }
+	   return ( 
+		<div>
+			Description: <br></br>
+			Tags:    <br></br><br></br>
+			<form id="file-form" method="post" encType="multipart/form-data">
+				<input id="uploadinput" type="file" name="file" multiple="multiple" onChange={this.onChange}></input><br></br><br></br>
+			</form>
+			<button className="btn btn-lg upload-btn" type="button" onClick={this.onUpload}>Upload File</button>
+		</div>
+	   )
+
+	}
 }
 
-
-export default Upload;  
+export default Upload;

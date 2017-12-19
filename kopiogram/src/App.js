@@ -30,12 +30,48 @@ class App extends Component {
 		});
 	}
 
+	// Uploading stuff
 	onUpload(uploadInput){
+		console.log("App.js: got upload");
 		console.log(uploadInput);
 
-		cloudinary.v2.uploader.upload('https://dncache-mauganscorp.netdna-ssl.com/thumbseg/1448/1448278-bigthumbnail.jpg',
-			function(error, result){console.log(result)});
-
+//		cloudinary.v2.uploader.upload(JSON.stringify(uploadInput),
+//			function(error, result){console.log(result)});
+			
+		let formData = new FormData();
+		formData.append('file', uploadInput);
+		
+		let uploadFetch={
+			method: "POST",
+//			headers:{"Content-Type":"multipart/form-data"},
+			headers:{"Content-Type":"application/json"},
+			mode:"cors",
+//			body:formData
+			body:JSON.stringify(
+			{"imageId":"abcdefasfasf1234",
+			 "imageUrl":"http://url.com",
+			 "description":"very good photo",
+			 "timestamp":"",
+			 "userId":"5a2d24a23481f3168025bd35",
+			 "likes":"",
+			 "tags":"",
+			 "comments":[{}]}
+			)
+		}
+		
+		fetch("/api/image",uploadFetch).then((response)=>{
+			console.log("Fetch response:");
+			console.log(response);
+			if(response.ok){
+				response.json().then((data)=>{
+					console.log("App.js: Image Uploaded!");
+				});
+			}else{
+				console.log("App.js: Something went wrong.");
+			}
+		});	
+			
+			
 		// Tuo toimii, esimerkki kuva lentää cloudinaryyn... Mutta pitäs tosiaan saada tuo file heitettyä sillä fetchillä backendin kautta.
 		// Tunnukset: huthut92@gmail.com	pw: Fsdrk123
 
@@ -131,41 +167,6 @@ class App extends Component {
 			})
 		}
 	}
-		
-// LOGIN-JUTUT
-
-/*
-	onLogin(token){
-		this.setState({
-			isLogged:true,
-			token:token
-		});
-	}
-
-	onLogout(){
-		let logoutFetch={
-		method: "POST",
-		headers:{"Content-Type":"application/json"},
-		mode:"cors",
-		body:JSON.stringify({"token":this.state.token})
-		}
-		
-		fetch("/logout",logoutFetch).then((response)=>{
-			if(response.ok){
-				response.json().then((data)=>{
-					console.log(data);
-					this.setState({
-						isLogged:false
-					})
-				});
-			}
-		});
-	}
-
-*/	
-	
-//	Gör så här:
-//		<NavigationBar isLogged={this.state.isLogged} onLogout={this.onLogout}/>
 
 
   render() {
