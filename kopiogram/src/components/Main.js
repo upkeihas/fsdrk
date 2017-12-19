@@ -2,6 +2,7 @@ import React from 'react';
 import {Switch,Route,Redirect} from 'react-router-dom';
 import ImageGallery from './ImageGallery';
 import Profile from './Profile';
+import RegistrationForm from './RegistrationForm';
 
 class Main extends React.Component {
 		
@@ -18,6 +19,7 @@ class Main extends React.Component {
 
 		tempRender = 
             <div>
+				<RegistrationForm/>
 				<ImageGallery typeOfImages={this.props.typeOfImages} numberOfImages={this.props.numberOfImages} isLogged={this.props.isLogged}/>
 			</div>
 		}
