@@ -6,13 +6,19 @@ class ImageGallery extends Component {
 	
 	constructor(props){
 		super(props);
+		this.state = {
+			viewerReference:""
+		}
 		this.openViewer = this.openViewer.bind(this);
 		this.closeViewer = this.closeViewer.bind(this);
 	}
 	
 	// Image Gallery owns modal viewer, and this is the way it should be
 	openViewer(imageId) {
-		console.log("Image id to show in viewer: "+imageId); 
+		console.log("Image id to show in viewer: "+imageId);
+		this.setState({
+				viewerReference:imageId
+		});
 		document.getElementById('modalviewer').style.display = "block";
 	}
 
@@ -52,11 +58,13 @@ class ImageGallery extends Component {
 		
 		return (
 
+		<div className="well">
 		<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center"> 
 			<div className="gallerycontainer">
 				{elementList}
 			</div>
-			<ModalViewer closeViewer={this.closeViewer}/>
+			<ModalViewer closeViewer={this.closeViewer} reference={this.state.viewerReference}/>
+		</div>
 		</div>
     );
   }

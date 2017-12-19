@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../modalviewer.css';
 class ModalViewer extends Component {
 	constructor(props){
-		super(props);
+		super(props);		
 		this.onPrevImage = this.onPrevImage.bind(this);
 		this.onNextImage = this.onNextImage.bind(this);
 		this.closeViewer = this.closeViewer.bind(this);
@@ -39,7 +39,7 @@ class ModalViewer extends Component {
 					<div className="w3-modal-content w3-card-4">
 						<header className="w3-container w3-black"> 
 							<span onClick={this.closeViewer} className="w3-button w3-display-topright">&times;</span>
-							<h3>Viewer</h3>
+							<h3>imageId: {this.props.reference}</h3>
 						</header>
 						<div className="w3-container">
 							<div className="imagecontainer">
