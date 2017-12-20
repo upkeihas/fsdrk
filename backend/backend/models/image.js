@@ -13,8 +13,8 @@ function isValidString (v) {
 	return status;
 };
 function isValidTimestamp (v) {
-	let status = v.length > 1;
-    return status;
+//	let status = v.length > 0;
+    return true;
 };
 function isValidUser (v) {
 	let status = v.length > 0;
@@ -27,6 +27,7 @@ function isValidTag (v) {
 
 
 var schema = mongoose.Schema({
+
 	imageId: {
 		type: String,
 		validate: [isValidId, 'Invalid image id.'],
@@ -42,7 +43,9 @@ var schema = mongoose.Schema({
 		validate: [isValidString, 'Invalid image description.']
 	},
 	timestamp: {
-		type: String,
+		type: Date,
+		default: new Date(),
+		required: true,
 		validate: [isValidTimestamp, 'Invalid image timestamp.']
 	},
 	userId: {
@@ -73,7 +76,8 @@ var schema = mongoose.Schema({
 				validate: [isValidUser, 'Invalid user in image comment.']
 			},
 			timestamp: {
-				type: String,
+				type: Date,
+				default: new Date(),
 				validate: [isValidTimestamp, 'Invalid timestamp in image comment.']
 			},
 			comment: {

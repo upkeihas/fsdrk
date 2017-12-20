@@ -66,12 +66,12 @@ passport.use("login-local", new localStrategy({
 			return done(null, false, {"message":"No such user or password"})
 		} 
 		if(!user) {
-			console.log("login-local !user");
+			console.log("user not found");
 			return done(null, false, {"message":"No such user or password"})
 		}
 		console.log("isPasswordValid "+password);
 		if(!user.isPasswordValid(password)) {
-			console.log("login-local password");
+			console.log("Not valid password");
 			return done(null, false, {"message":"No such user or password"});
 		}
 		console.log("done");
@@ -94,16 +94,13 @@ app.post("/login",
 	passport.authenticate("login-local",{failureRedirect:'/'}),
 	function(req,res) {
 		console.log("req.body.username="+req.body.username);
-		apiRouter.setCurrentUser(req.body);
 		console.log("/login");
-		res.status(200).json({"message":"success","token":"token"});
-		req.session.hello = "Hello";
-		userDb.findOne({"username":apiRouter.getCurrentUser().username}, function(err,user) {
+		res.status(200).json({"message":"success","token":"3475fg34"});
+		userDb.findOne({"username":req.body.username}, function(err,user) {
 			if(err) {
 				console.log("Cannot find user");
 			} else {
 				console.log("User found");
-				apiRouter.setCurrentUser(user);
 			}				
 		});
 		

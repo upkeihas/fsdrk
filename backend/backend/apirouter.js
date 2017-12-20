@@ -5,17 +5,6 @@ let imageDb = require("./models/image");
 let express = require("express");
 let apiRouter = express.Router();
 
-apiRouter.currentUser = new userDb();
-
-apiRouter.setCurrentUser = function(user) {
-	apiRouter.currentUser = user;
-	console.log(apiRouter.currentUser);
-}
-
-apiRouter.getCurrentUser = function(user) {
-	return apiRouter.currentUser;
-}
-
 // Users
 
 removePassword = function(users) {
@@ -51,7 +40,7 @@ apiRouter.get("/user/:id", function(req,res) {
 			if(JSON.stringify(user) == "[]") {
 				console.log("User not found");
 			} else {
-				console.log("Success in finding user");	
+				console.log("Success in finding user");
 			}
 			res.status(200).json(removePassword(user));
 		}
@@ -70,7 +59,7 @@ apiRouter.get("/username/:username", function(req,res) {
 			if(JSON.stringify(user) == "[]") {
 				console.log("User not found");
 			} else {
-				console.log("Success in finding user");	
+				console.log("Success in finding user");
 			}
 			res.status(200).json(user);
 		}
@@ -92,7 +81,7 @@ apiRouter.get("/user/search/:text", function(req,res) {
 			if(JSON.stringify(user) == "[]") {
 				console.log("User not found");
 			} else {
-				console.log("Success in finding user");	
+				console.log("Success in finding user");
 			}
 			res.status(200).json(user);
 		}
@@ -102,139 +91,150 @@ apiRouter.get("/user/search/:text", function(req,res) {
 // Edit user data
 apiRouter.post('/user/edit', function(req,res) {
 	console.log("/user/edit:"+JSON.stringify(req.body));
-		let temp = new userDb(req.body);
-		// Check user rights to edit data
+	let temp = new userDb(req.body);
+	let currentUser = new userDb({});
+	currentUser._id = req.session.passport.user;
 
-		if(apiRouter.getCurrentUser().username === temp.username) {
-			console.log("Users own profile");
+	// Check user rights to edit data
 
-			// Read profile from mongoDb
-			let status = userDb.findOne({'username':temp.username}, 
-				function(err,user) {
-				if(err) {
-					console.log("user edit: Cannot edit user data. Err:"+err.message);
-					res.status(409).end(JSON.stringify({"message":"Cannot edit user data"}));			
-					return;
-				} else {
-					// Old values copied to empty places because some object properties cannot removed
-					temp._id = user._id;
-					if(req.body.password != undefined) { temp.password = req.body.password; }
-					if(req.body.email === undefined) { temp.email = user.email; }
-					if(req.body.images === undefined) { temp.images = user.images; }
-					if(req.body.follower === undefined) { temp.follower = user.follower; }
-					if(req.body.following === undefined) { temp.following = user.following; }
-					if(req.body.profileImage === undefined) { temp.profileImage = user.profileImage; }
-					if(req.body.userType === undefined) { temp.userType = user.userType; }
-					if(req.body.adminEnabled === undefined) { temp.adminEnabled = user.adminEnabled; }
-					// Check is password changed
-					if(req.body.newPassword) {
-						console.log("password changed");
-						// Check is old password valid
-						if(!user.isPasswordValid(temp.password)) {
-							console.log("User authization failed");
-							res.status(409).end(JSON.stringify({"message":"user authization failed"}));			
-							return;							
-						}
-						console.log("temp.password       1="+temp.password);
-						// generate new hash to password field
-						temp.password=temp.generateHash(req.body.newPassword);
-						console.log("req.body.newPassword="+req.body.newPassword);
-						console.log("temp.password       2="+temp.password);
-					} else {
-						console.log("password not changed");
-						// if password not changed, do not write it to mongoDb
-						delete temp.password;
+	if (currentUser._id == temp._id) {
+		console.log("Users own profile");
+
+		// Read profile from mongoDB
+		let status = userDb.findOne({'username':temp.username}, function(err,user) {
+			if(err) {
+				console.log("user edit: Cannot edit user data. Err:"+err.message);
+				res.status(409).end(JSON.stringify({"message":"Cannot edit user data"}));
+				return;
+			} else {
+				// Old values copied to empty places because some object properties cannot removed
+				temp._id = user._id;
+				if(req.body.password != undefined) { temp.password = req.body.password; }
+				if(req.body.email === undefined) { temp.email = user.email; }
+				if(req.body.images === undefined) { temp.images = user.images; }
+				if(req.body.follower === undefined) { temp.follower = user.follower; }
+				if(req.body.following === undefined) { temp.following = user.following; }
+				if(req.body.profileImage === undefined) { temp.profileImage = user.profileImage; }
+				if(req.body.userType === undefined) { temp.userType = user.userType; }
+				if(req.body.adminEnabled === undefined) { temp.adminEnabled = user.adminEnabled; }
+				// Check is password changed
+				if(req.body.newPassword) {
+					console.log("password changed");
+					// Check is old password valid
+					if(!user.isPasswordValid(temp.password)) {
+						console.log("User authization failed");
+						res.status(409).end(JSON.stringify({"message":"user authization failed"}));
+						return;
 					}
+					console.log("temp.password       1="+temp.password);
+					// generate new hash to password field
+					temp.password=temp.generateHash(req.body.newPassword);
+					console.log("req.body.newPassword="+req.body.newPassword);
+					console.log("temp.password       2="+temp.password);
+				} else {
+					console.log("password not changed");
+					// if password not changed, do not write it to mongoDb
+					delete temp.password;
+				}
 
-					// Update changes to mongo document
-					userDb.findOneAndUpdate({'username':temp.username}, temp, 
-					{upsert:true, new: true}, function(err,user) {
+				// Update changes to mongo document
+				userDb.findOneAndUpdate({'username':temp.username}, temp, 
+				{upsert:true, new: true, runValidators: true}, function(err,user) {
+					if(err) {
+						console.log("user edit: Cannot edit user data. Err:"+err.message);
+						res.status(409).end(JSON.stringify({"message":"Cannot edit user data"}));
+						return;
+					} else {
+						console.log("user modified");
+						res.status(200).end(JSON.stringify({"message":"user modified"}));
+						return;
+					}
+				});
+			}
+		});
+	} else {
+
+		//TODO: Admin-oikeudet eivät vielä toimi => toiminta ohitettu
+
+//		console.log("Admin operations are not supported yet!");
+//		res.status(409).end(JSON.stringify({"message":"Admin operations are not supported yet!"}));
+//		return;
+
+		// Check admin user rights
+		console.log("check admin");
+
+		// Read profile from mongoDB
+		let status = userDb.findOne({'_id':currentUser._id}, function(err,cUser) {
+			if(err) {
+				console.log("Cannot read user data. "+err.message);
+				res.status(409).end(JSON.stringify({"message":"Cannot read user data"}));
+				return;
+			} else {
+
+				if(cUser.adminRights && cUser.userType) {
+					console.log("admin");
+
+					//TODO: Add here password check for admin user
+
+					// Read profile from mongoDB
+					let status = userDb.findOne({'_id':temp._id}, function(err,user) {
 						if(err) {
 							console.log("user edit: Cannot edit user data. Err:"+err.message);
-							res.status(409).end(JSON.stringify({"message":"Cannot edit user data"}));			
+							res.status(409).end(JSON.stringify({"message":"Cannot edit user data"}));
 							return;
 						} else {
-							console.log("user modified");
-							res.status(200).end(JSON.stringify({"message":"user modified"}));			
-							return;
+							// Old values copied to empty places because some object properties cannot removed
+							temp._id = user._id;
+							if(req.body.password != undefined) { temp.password = req.body.password; }
+							if(req.body.email === undefined) { temp.email = user.email; }
+							if(req.body.images === undefined) { temp.images = user.images; }
+							if(req.body.follower === undefined) { temp.follower = user.follower; }
+							if(req.body.following === undefined) { temp.following = user.following; }
+							if(req.body.profileImage === undefined) { temp.profileImage = user.profileImage; }
+							if(req.body.userType === undefined) { temp.userType = user.userType; }
+							if(req.body.adminEnabled === undefined) { temp.adminEnabled = user.adminEnabled; }
+							// Check is password changed
+							if(req.body.newPassword) {
+								console.log("password changed");
+								// Check is old password valid
+								if(!user.isPasswordValid(temp.password)) {
+									console.log("User authization failed");
+									res.status(409).end(JSON.stringify({"message":"user authization failed"}));
+									return;
+								}
+								console.log("temp.password       1="+temp.password);
+								// generate new hash to password field
+								temp.password=temp.generateHash(req.body.newPassword);
+								console.log("req.body.newPassword="+req.body.newPassword);
+								console.log("temp.password       2="+temp.password);
+							} else {
+								console.log("password not changed");
+								// if password not changed, do not write it to mongoDb
+								delete temp.password;
+							}
+
+							// Update changes to mongo document
+							userDb.findOneAndUpdate({'username':temp.username}, temp, 
+							{upsert:true, new: true, runValidators: true}, function(err,user) {
+								if(err) {
+									console.log("user edit: Cannot edit user data. Err:"+err.message);
+									res.status(409).end(JSON.stringify({"message":"Cannot edit user data"}));
+									return;
+								} else {
+									console.log("user modified");
+									res.status(200).end(JSON.stringify({"message":"user modified"}));
+									return;
+								}
+							});
 						}
 					});
+
 				}
-			});
-		} else {
-
-			//TODO: Admin-oikeudet eivät vielä toimi => toiminta ohitettu
-
-			console.log("Admin operations are not supported yet!");
-			res.status(409).end(JSON.stringify({"message":"Admin operations are not supported yet!"}));			
-			return;
-
-			// Check admin user rights
-			console.log("check admin");
-			if(apiRouter.getCurrentUser().adminRights && apiRouter.getCurrentUser().userType) {
-				console.log("admin");
-
-				//TODO: Lisää tähän admin-käyttäjän salasanan tarkistus
-
-
-				// Read profile from mongoDb
-				let status = userDb.findOne({'username':temp.username}, 
-				function(err,user) {
-				if(err) {
-					console.log("user edit: Cannot edit user data. Err:"+err.message);
-					res.status(409).end(JSON.stringify({"message":"Cannot edit user data"}));			
-					return;
-				} else {
-					// Old values copied to empty places because some object properties cannot removed
-					temp._id = user._id;
-					if(req.body.password != undefined) { temp.password = req.body.password; }
-					if(req.body.email === undefined) { temp.email = user.email; }
-					if(req.body.images === undefined) { temp.images = user.images; }
-					if(req.body.follower === undefined) { temp.follower = user.follower; }
-					if(req.body.following === undefined) { temp.following = user.following; }
-					if(req.body.profileImage === undefined) { temp.profileImage = user.profileImage; }
-					if(req.body.userType === undefined) { temp.userType = user.userType; }
-					if(req.body.adminEnabled === undefined) { temp.adminEnabled = user.adminEnabled; }
-					// Check is password changed
-					if(req.body.newPassword) {
-						console.log("password changed");
-						// Check is old password valid
-						if(!user.isPasswordValid(temp.password)) {
-							console.log("User authization failed");
-							res.status(409).end(JSON.stringify({"message":"user authization failed"}));			
-							return;							
-						}
-						console.log("temp.password       1="+temp.password);
-						// generate new hash to password field
-						temp.password=temp.generateHash(req.body.newPassword);
-						console.log("req.body.newPassword="+req.body.newPassword);
-						console.log("temp.password       2="+temp.password);
-					} else {
-						console.log("password not changed");
-						// if password not changed, do not write it to mongoDb
-						delete temp.password;
-					}
-
-					// Update changes to mongo document
-					userDb.findOneAndUpdate({'username':temp.username}, temp, 
-					{upsert:true, new: true}, function(err,user) {
-						if(err) {
-							console.log("user edit: Cannot edit user data. Err:"+err.message);
-							res.status(409).end(JSON.stringify({"message":"Cannot edit user data"}));			
-							return;
-						} else {
-							console.log("user modified");
-							console.log("user:");
-							console.log(user);
-							res.status(200).end(JSON.stringify({"message":"user modified"}));			
-							return;
-						}
-					});
-				}
-			});
-			console.log("status="+status);
-		}
+				console.log("status="+status);
+			}
+		});
 	}
+
 });
 
 // Images
@@ -326,7 +326,7 @@ apiRouter.get("/image/:id", function(req,res) {
 			if(JSON.stringify(image) == "[]") {
 				console.log("Image not found");
 			} else {
-				console.log("Success in finding image");	
+				console.log("Success in finding image");
 			}
 			res.status(200).json(image);
 		}
@@ -346,7 +346,7 @@ apiRouter.get("/imageid/:id", function(req,res) {
 			if(JSON.stringify(image) == "[]") {
 				console.log("Image not found");
 			} else {
-				console.log("Success in finding image");	
+				console.log("Success in finding image");
 			}
 			res.status(200).json(image);
 		}
@@ -409,7 +409,7 @@ apiRouter.get("/imageurl/:imageUrl", function(req,res) {
 			if(JSON.stringify(image) == "[]") {
 				console.log("Image not found");
 			} else {
-				console.log("Success in finding image");	
+				console.log("Success in finding image");
 			}
 			res.status(200).json(image);
 		}
@@ -433,14 +433,13 @@ apiRouter.get("/image/search/:text", function(req,res) {
 			if(JSON.stringify(image) == "[]") {
 				console.log("Image not found");
 			} else {
-				console.log("Success in finding image");	
+				console.log("Success in finding image");
 			}
 			res.status(200).json(image);
 		}
 	});
 });
 
-//TODO: Siisti koodia
 // Find images for userName
 apiRouter.get("/image/username/:name", function(req,res) {
 	console.log("GET /api/image/username/"+req.params.text);
@@ -451,13 +450,13 @@ apiRouter.get("/image/username/:name", function(req,res) {
 	var before = new Date()
 	userDb.findOne( {"username": req.params.name}).lean().exec(function(err, user) {
 		if(err) {
-			console.log("Failed to find image. Error:"+err.message);
-			res.status(404).json({"message":"Failed to find image"});
+			console.log("Failed to find user. Error:"+err.message);
+			res.status(404).json({"message":"Failed to find user"});
 		} else {
 			if(JSON.stringify(user) == "[]") {
 				console.log("UserId not found");
 			} else {
-				console.log("Success in finding userId");	
+				console.log("Success in finding userId");
 				console.log(user);
 				//---------
 				//Find images for userId
@@ -471,12 +470,12 @@ apiRouter.get("/image/username/:name", function(req,res) {
 								console.log("Images not found");
 								res.status(404).json({"message":"Images not found"});
 							} else {
-								console.log("Success in finding images");	
+								console.log("Success in finding images");
 								res.status(200).json(image);
 							}
 						}
 					})
-				);			
+				);
 				//---------	
 			}
 			res.status(200).json("image");
@@ -504,7 +503,7 @@ apiRouter.get("/image/userid/:id", function(req,res) {
 				console.log("Images not found");
 				res.status(404).json({"message":"Images not found"});
 			} else {
-				console.log("Success in finding images");	
+				console.log("Success in finding images");
 				res.status(200).json(image);
 			}
 		}
@@ -539,13 +538,94 @@ apiRouter.post("/image/edit", function(req,res) {
 	var temp = new imageDb(req.body);
 	console.log("temp:");
 	console.log(temp);
-	//TODO: Validointia parannettava
-	imageDb.findOneAndUpdate({'imageId':req.body.imageId}, req.body, {upsert:true, new: true}, function(err,item) {
+	imageDb.findOneAndUpdate({'_id':req.body._id}, req.body, {upsert:true, new: true, runValidators: true}, function(err,item) {
 		if(err) {
 			console.log("Failed to save image. ("+err.message+")");
 			res.status(409).json({"Message":"Failed to save image"});
 		} else {
 			console.log("Success in saving image");
+			res.status(200).json({"message":"success"});
+		}
+	});
+});
+
+// Like 
+apiRouter.post("/image/like", function(req,res) {
+	console.log("POST /api/like _id="+req.body._id);
+	let id = req.body._id;
+	let currentUser = req.session.passport.user;
+	let likes = [];
+	var temp = new imageDb(req.body);
+
+	imageDb.findOne({'_id': id}, "_id likes", function(err,image) {
+		if(err) {
+			console.log("Failed to read image. ("+err.message+")");
+			res.status(409).json({"Message":"Failed to read image"});
+		} else {
+			if(!image) {
+				console.log("Failed to save image");
+				res.status(409).json({"Message":"Failed to save image"});
+				return;
+			}
+			if(image.likes) {
+				likes = _.xor(image.likes, currentUser.split()); //change like state
+			} else {
+				likes = currentUser.split(); //set like state
+			}
+
+			imageDb.findOneAndUpdate({'_id': id}, {'likes': likes}, {upsert:true, new: true, runValidators: true}, function(err,item) {
+				if(err) {
+					console.log("Failed to save image. ("+err.message+")");
+					res.status(409).json({"Message":"Failed to save image"});
+				} else {
+					console.log("Success in saving image");
+					res.status(200).json({"message":"success"});
+				}
+			});
+		}
+	});
+});
+
+// Add comment 
+apiRouter.post("/image/comment", function(req,res) {
+	console.log("POST /api/comment _id="+req.body._id);
+	let id = req.body._id;
+	let newComment = req.body.comments[0];
+//	newComment.timestamp = new Date();
+	let currentUser = req.session.passport.user.split();
+	let comments = {};
+
+	imageDb.findOne({'_id': id}, {'comments':1}, function(err,image) {
+		if(err) {
+			console.log("Failed to read comment. ("+err.message+")");
+			res.status(409).json({"Message":"Failed to read comment"});
+		} else {
+			comments = image.comments;
+			comments.push(newComment);
+
+			imageDb.findOneAndUpdate({'_id': id}, {'comments': comments}, {upsert:true, new: true, runValidators: true}, function(err,item) {
+				if(err) {
+					console.log("Failed to save comments to image. ("+err.message+")");
+					res.status(409).json({"Message":"Failed to save comments to image"});
+				} else {
+					console.log("Success in saving comments to image");
+					res.status(200).json({"message":"success"});
+				}
+			});
+		}
+	});
+});
+
+// Delete image
+apiRouter.delete("/image/:id", function(req,res) {
+	console.log("Delete image");
+	let id = req.params.id;
+	imageDb.deleteOne({"_id":id}, function(err) {
+		if(err) {
+			console.log("Failed to remove image. Error:"+err.message);
+			res.status(404).json({"message":"Failed to remove image"});
+		} else {
+			console.log("Success in removing image");
 			res.status(200).json({"message":"success"});
 		}
 	});
@@ -567,16 +647,13 @@ apiRouter.delete("/image/:imageId", function(req,res) {
 });
 
 //TODO: Lisää vielä:
-// peukutus
-// kommentin lisääminen
-// oman kommentin poistaminen 
-// oman kommentin editointi?
-// profiilikuvan tallennus
-// profiilikuvan muokkaus
+// kuvan siirto clientiltä kuvapalveluun
+// kuvan siirto kuvapalvelusta clientille
+// kommentin poistaminen/editointi
+// profiilikuvan tallennus/muokkaus/poisto
 // profiilikuvan poisto
-// seurattavan käyttäjän lisääminen
-// seurattavan käyttäjän poistaminen
-// salasanan vaihto
+// seurattavan käyttäjän lisääminen/poistaminen
+// admin userin toiminnot userin tietojen muokkaus/poisto/kuvien poisto/muokkaus
 // omien profiilitietojen päivitys
 // ilmiannetuille kuville oma collection mongoon
 
