@@ -5,6 +5,7 @@ import { Link, Switch, Route, Redirect } from 'react-router-dom';
 import Main from './components/Main';
 import cloudinary from 'cloudinary';
 
+
 class App extends Component {
 	
 	constructor(props){
