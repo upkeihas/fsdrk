@@ -616,6 +616,82 @@ apiRouter.post("/image/comment", function(req,res) {
 	});
 });
 
+// Edit comment
+apiRouter.post("/image/comment/edit", function(req,res) {
+	console.log("POST /api/comment/edit _id="+req.body._id);
+	let id = req.body._id;
+	let newComment = req.body.comments[0];
+	newComment.timestamp = new Date();	// Update new date and time
+	newComment._id = id;				// Keep original _id
+	let currentUser = req.session.passport.user.split();
+	let comments = {};
+
+	imageDb.findOne({'comments._id': id}, {'comments':1}, function(err,image) {
+		if(err) {
+			console.log("Failed to read comment. ("+err.message+")");
+			res.status(409).json({"Message":"Failed to read comment"});
+		} else {
+			if(!image) {
+				res.status(404).json({"Message":"Comment not found"});
+				return;
+			}
+			comments = image.comments;
+			//remove old comment
+			let a = _.remove(comments, function(n) {
+				return n._id == id;
+			});
+			//write new comment
+			comments.push(newComment);
+
+			imageDb.findOneAndUpdate({'comments._id': id}, {'comments': comments}, {upsert:true, new: true, runValidators: true}, function(err,item) {
+				if(err) {
+					console.log("Failed to save comments to image. ("+err.message+")");
+					res.status(409).json({"Message":"Failed to save comments to image"});
+				} else {
+					console.log("Success in saving comments to image");
+					res.status(200).json({"message":"success"});
+				}
+			});
+		}
+	});
+});
+
+// Delete comment
+apiRouter.post("/image/comment/delete", function(req,res) {
+	console.log("POST /api/comment/delete _id="+req.body._id);
+	let id = req.body._id;
+	let newComment = req.body.comments[0];
+	let currentUser = req.session.passport.user.split();
+	let comments = {};
+
+	imageDb.findOne({'comments._id': id}, {'comments':1}, function(err,image) {
+		if(err) {
+			console.log("Failed to read comment. ("+err.message+")");
+			res.status(409).json({"Message":"Failed to read comment"});
+		} else {
+			if(!image) {
+				res.status(404).json({"Message":"Comment not found"});
+				return;
+			}
+			comments = image.comments;
+			let index = _.findIndex(comments, {'_id':id})
+			_.remove(comments, function(n) {
+				return n._id == id;
+			});
+
+			imageDb.findOneAndUpdate({'comments._id': id}, {'comments': comments}, {upsert:true, new: true, runValidators: true}, function(err,item) {
+				if(err) {
+					console.log("Failed to save comments to image. ("+err.message+")");
+					res.status(409).json({"Message":"Failed to save comments to image"});
+				} else {
+					console.log("Success in saving comments to image");
+					res.status(200).json({"message":"success"});
+				}
+			});
+		}
+	});
+});
+
 // Delete image
 apiRouter.delete("/image/:id", function(req,res) {
 	console.log("Delete image");
@@ -649,7 +725,6 @@ apiRouter.delete("/image/:imageId", function(req,res) {
 //TODO: Lisää vielä:
 // kuvan siirto clientiltä kuvapalveluun
 // kuvan siirto kuvapalvelusta clientille
-// kommentin poistaminen/editointi
 // profiilikuvan tallennus/muokkaus/poisto
 // profiilikuvan poisto
 // seurattavan käyttäjän lisääminen/poistaminen
