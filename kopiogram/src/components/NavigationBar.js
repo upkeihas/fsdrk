@@ -1,13 +1,15 @@
 import React from 'react';
 import LoginDialog from './LoginDialog';
 import { Link } from 'react-router-dom';
+import Modal from './ModalFileSend';
 
 class NavigationBar extends React.Component {
 	constructor(props){
 		super(props);
 		this.state={
 			isLogged:this.props.isLogged,
-			chosenPage:this.props.chosenPage
+			chosenPage:this.props.chosenPage,
+			isOpen:false
 		}
 		this.onRegister = this.onRegister.bind(this);
 		this.onUpload = this.onUpload.bind(this);
@@ -17,12 +19,33 @@ class NavigationBar extends React.Component {
 
 	}
 
+	//TODO: Siirrä modalin open ja close lopulliseen paikkaan
+	openModal(){
+		console.log("openModal");
+		this.setState({
+		  isOpen: true
+		});
+	  }
+
+	  closeModal(){
+		console.log("closeModal");
+		this.setState({
+		  isOpen: false
+		});
+	  }
+
 	onRegister(userinfo){
 		this.props.onRegister(userinfo);
 	}
 	
 	onUpload(){
 		console.log("Upload button pressed, calling parents onUpload()");
+
+		//TODO: Siirrä oikeaan paikkaan
+		this.setState({
+			isOpen: true
+		});
+
 		this.props.onUpload(); // this prop function is the parent component's (App.js) function onUpload()
 	}
 	
@@ -94,6 +117,13 @@ class NavigationBar extends React.Component {
 							</li>
 						</ul>
 					</div>
+					<button onClick={this.openModal}>
+						Open the modal
+					</button>
+					<Modal 
+						show={this.state.isOpen}
+						onClose = {this.closeModal}>
+					</Modal>
 				</nav>
 
 			}else{

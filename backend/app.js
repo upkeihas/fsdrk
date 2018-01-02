@@ -8,6 +8,9 @@ let session = require("express-session");
 let mongoStore = require("connect-mongo")(session);
 let localStrategy = require("passport-local");
 let passport = require("passport");
+let imageCloud = require("./backend/imageCloud");
+let formidable = require('formidable');
+let fs = require('fs');
 
 let port = 3001;
 
@@ -202,6 +205,34 @@ app.get("/image/:id", function(req,res) {
 	});
 });
 
+// Upload image from client to server and to cloudinary
+app.post('/upload', function(req, res) {
+	console.log(req.body);
+	console.log(req.files);
+
+	var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+		console.log("files:");
+		console.log(files);
+		var filepath = files.file.path;
+		console.log("filepath="+filepath);
+
+		imageCloud.sendImage(filepath, function(response) {
+			if(!response) {
+				console.log("Image sending failed");
+				res.status(400).json({"message":"Image sending failed"});
+				return;
+			}
+			if(response.error) {
+				console.log("Image sending failed. "+response.error.message);
+				res.status(response.error.http_code).json(response);
+			} else {
+				console.log("Image sending success");
+				res.status(200).json(response);
+			}
+		});
+	});
+});
 
 // Contact api, middleware to check authentication
 
