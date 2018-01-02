@@ -236,7 +236,8 @@ app.post('/upload', function(req, res) {
 
 // Contact api, middleware to check authentication
 
-app.use("/api", isUserAuthenticated, apiRouter);
+//app.use("/api", isUserAuthenticated, apiRouter);
+app.use("/api", apiRouter);
 
 // Start server and listen
 
