@@ -3,9 +3,9 @@ let apiRouter = express.Router();
 var cloudinary = require('cloudinary');
 
 //TODO: Change real values
-const CLOUD_NAME = 'DummyCloud';
-const API_KEY = '3214560987';
-const API_SECRET = 'jKjhoi43kLK9dMCvoe6l3Lka';
+const CLOUD_NAME = 'fsdrk';
+const API_KEY = '659274845159812';
+const API_SECRET = '4tcWnRrxsrqzgPxKWRS78ACsMrM';
 
 imageCloud = [];
   
@@ -17,7 +17,7 @@ imageCloud = [];
     api_secret: API_SECRET 
   });
 
-  return cloudinary.uploader.upload(fileName, function(result) {
+  cloudinary.v2.uploader.upload(fileName, function(error, result) {
     return cb(result);
   });
 

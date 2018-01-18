@@ -2,6 +2,7 @@ let express = require("express");
 let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 let bluebird = require("bluebird");
+let imageDb = require("./backend/models/image");
 let userDb = require("./backend/models/user");
 let apiRouter = require("./backend/apirouter");
 let session = require("express-session");
@@ -218,6 +219,7 @@ app.post('/upload', function(req, res) {
 		console.log("filepath="+filepath);
 
 		imageCloud.sendImage(filepath, function(response) {
+			console.log(response);
 			if(!response) {
 				console.log("Image sending failed");
 				res.status(400).json({"message":"Image sending failed"});
@@ -228,7 +230,17 @@ app.post('/upload', function(req, res) {
 				res.status(response.error.http_code).json(response);
 			} else {
 				console.log("Image sending success");
-				res.status(200).json(response);
+				var temp = new imageDb(response);
+				console.log(temp);
+				temp.save(function(err,item) {
+					if(err) {
+					console.log("Failed to save image. ("+err.message+")");
+					res.status(409).json({"Message":"Failed to save image"});
+				} else {
+					console.log("Success in saving image");
+					res.status(200).json({"message":"success"});
+				}
+				})
 			}
 		});
 	});

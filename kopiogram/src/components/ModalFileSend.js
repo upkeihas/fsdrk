@@ -36,6 +36,7 @@ class ModalFileSend extends React.Component {
                 this.setState({
                     chosenPage:"Main"
                 })
+                alert("Success!");
             });
         }else{
             console.log("Upload: Something went wrong. "+response);

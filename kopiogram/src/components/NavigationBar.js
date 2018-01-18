@@ -12,6 +12,7 @@ class NavigationBar extends React.Component {
 			isOpen:false
 		}
 		this.onRegister = this.onRegister.bind(this);
+		this.closeModal = this.closeModal.bind(this);
 		this.onUpload = this.onUpload.bind(this);
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
@@ -27,7 +28,7 @@ class NavigationBar extends React.Component {
 		});
 	  }
 
-	  closeModal(){
+	closeModal(){
 		console.log("closeModal");
 		this.setState({
 		  isOpen: false
@@ -47,6 +48,7 @@ class NavigationBar extends React.Component {
 		});
 
 		this.props.onUpload(); // this prop function is the parent component's (App.js) function onUpload()
+		
 	}
 	
 	onLogin(userinfo){
@@ -117,9 +119,7 @@ class NavigationBar extends React.Component {
 							</li>
 						</ul>
 					</div>
-					<button onClick={this.openModal}>
-						Open the modal
-					</button>
+					
 					<Modal 
 						show={this.state.isOpen}
 						onClose = {this.closeModal}>
