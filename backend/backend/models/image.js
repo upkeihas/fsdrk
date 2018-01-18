@@ -25,7 +25,6 @@ function isValidTag (v) {
     return status;
 };
 
-
 var schema = mongoose.Schema({
 
 	imageId: {
@@ -33,14 +32,14 @@ var schema = mongoose.Schema({
 		validate: [isValidId, 'Invalid image id.'],
 		index: true
 	},
-	imageUrl: {
+	url: {
 		type: String,
 		validate: [isValidUrl, 'Invalid image Url.'],
-		required: true
+		//required: true
 	},
 	description: {
 		type: String,
-		validate: [isValidString, 'Invalid image description.']
+		//validate: [isValidString, 'Invalid image description.']
 	},
 	timestamp: {
 		type: Date,
@@ -48,20 +47,21 @@ var schema = mongoose.Schema({
 		required: true,
 		validate: [isValidTimestamp, 'Invalid image timestamp.']
 	},
-	userId: {
+	/* userId: {
 		type: String,
-		validate: [isValidUser, 'Invalid image userId'],
+		//validate: [isValidUser, 'Invalid image userId'],
 		required: true },
 	likes: [
 		{
 			type: String,
-			validate: [isValidUser, 'Invalid user in image likes.'] //user ids
+			//validate: [isValidUser, 'Invalid user in image likes.'] //user ids
 		}
 	],
+	*/
 	tags: [
 		{
 			type: String,
-			validate: [isValidTag, 'Invalid image tags.'],
+			//validate: [isValidTag, 'Invalid image tags.'],
 			default:""
 		}
 	],
@@ -73,16 +73,16 @@ var schema = mongoose.Schema({
 		{
 			userId: {
 				type: String,
-				validate: [isValidUser, 'Invalid user in image comment.']
+				//validate: [isValidUser, 'Invalid user in image comment.']
 			},
 			timestamp: {
 				type: Date,
 				default: new Date(),
-				validate: [isValidTimestamp, 'Invalid timestamp in image comment.']
+				//validate: [isValidTimestamp, 'Invalid timestamp in image comment.']
 			},
 			comment: {
 				type: String,
-				validate: [isValidString, 'Invalid image comment.']
+				//validate: [isValidString, 'Invalid image comment.']
 			}
 		}
 	]

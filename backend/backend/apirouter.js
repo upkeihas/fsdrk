@@ -521,8 +521,7 @@ apiRouter.post("/image", function(req,res) {
 	var temp = new imageDb(req.body);
 	console.log("temp:");
 	console.log(temp);
-	
-	temp.save(function(err,item) {
+		temp.save(function(err,item) {
 		if(err) {
 			console.log("Failed to save image. ("+err.message+")");
 			res.status(409).json({"Message":"Failed to save image"});
@@ -745,8 +744,19 @@ apiRouter.post('/upload', function(req, res) {
 				console.log("Image sending failed. "+response.error.message);
 				res.status(response.error.http_code).json(response);
 			} else {
-				console.log("Image sending success");
-				res.status(200).json(response);
+				var temp = new imageDb(req.body);
+				console.log(temp);
+				temp.save(function(err,item) {
+			if(err) {
+			console.log("Failed to save image. ("+err.message+")");
+			res.status(409).json({"Message":"Failed to save image"});
+		} else {
+			console.log("Success in saving image");
+			res.status(200).json({"message":"success"});
+		}
+				
+	})	
+				
 			}
 		});
 	});

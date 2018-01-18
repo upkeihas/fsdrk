@@ -2,12 +2,16 @@ let express = require("express");
 let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 let bluebird = require("bluebird");
+let imageDb = require("./backend/models/image");
 let userDb = require("./backend/models/user");
 let apiRouter = require("./backend/apirouter");
 let session = require("express-session");
 let mongoStore = require("connect-mongo")(session);
 let localStrategy = require("passport-local");
 let passport = require("passport");
+let imageCloud = require("./backend/imageCloud");
+let formidable = require('formidable');
+let fs = require('fs');
 
 let port = 3001;
 
@@ -202,10 +206,50 @@ app.get("/image/:id", function(req,res) {
 	});
 });
 
+// Upload image from client to server and to cloudinary
+app.post('/upload', function(req, res) {
+	console.log(req.body);
+	console.log(req.files);
+
+	var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+		console.log("files:");
+		console.log(files);
+		var filepath = files.file.path;
+		console.log("filepath="+filepath);
+
+		imageCloud.sendImage(filepath, function(response) {
+			console.log(response);
+			if(!response) {
+				console.log("Image sending failed");
+				res.status(400).json({"message":"Image sending failed"});
+				return;
+			}
+			if(response.error) {
+				console.log("Image sending failed. "+response.error.message);
+				res.status(response.error.http_code).json(response);
+			} else {
+				console.log("Image sending success");
+				var temp = new imageDb(response);
+				console.log(temp);
+				temp.save(function(err,item) {
+					if(err) {
+					console.log("Failed to save image. ("+err.message+")");
+					res.status(409).json({"Message":"Failed to save image"});
+				} else {
+					console.log("Success in saving image");
+					res.status(200).json({"message":"success"});
+				}
+				})
+			}
+		});
+	});
+});
 
 // Contact api, middleware to check authentication
 
-app.use("/api", isUserAuthenticated, apiRouter);
+//app.use("/api", isUserAuthenticated, apiRouter);
+app.use("/api", apiRouter);
 
 // Start server and listen
 
